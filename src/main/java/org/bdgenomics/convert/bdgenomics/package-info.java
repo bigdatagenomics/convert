@@ -1,4 +1,4 @@
 /**
- * Conversions from bdg-formats to strings and vice versa.
+ * Convert between bdg-formats and string data models.
  */
 package org.bdgenomics.convert.bdgenomics;

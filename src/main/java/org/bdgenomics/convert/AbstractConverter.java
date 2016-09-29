@@ -45,6 +45,18 @@ public abstract class AbstractConverter<S, T> implements Converter<S, T> {
     }
 
     /**
+     * Check the specified converter is not null.
+     *
+     * @param converter converter, must not b null
+     * @throws NullPointerException if converter is null
+     */
+    protected final void checkNotNull(final Converter<?, ?> converter) {
+        if (converter == null) {
+            throw new NullPointerException("converter must not be null");
+        }
+    }
+
+    /**
      * Check the specified conversion stringency and logger are not null.
      *
      * @param stringency conversion stringency, must not be null
