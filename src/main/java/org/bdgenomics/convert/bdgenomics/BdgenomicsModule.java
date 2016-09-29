@@ -20,32 +20,32 @@ public final class BdgenomicsModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<String, Dbxref> createStringToDbxrefConverter() {
+    Converter<String, Dbxref> createStringToDbxref() {
         return new StringToDbxref();
     }
 
     @Provides @Singleton
-    Converter<Dbxref, String> createDbxrefToStringConverter() {
+    Converter<Dbxref, String> createDbxrefToString() {
         return new DbxrefToString();
     }
 
     @Provides @Singleton
-    Converter<String, OntologyTerm> createStringToOntologyTermConverter() {
+    Converter<String, OntologyTerm> createStringToOntologyTerm() {
         return new StringToOntologyTerm();
     }
 
     @Provides @Singleton
-    Converter<OntologyTerm, String> createOntologyTermToStringConverter() {
+    Converter<OntologyTerm, String> createOntologyTermToString() {
         return new OntologyTermToString();
     }
 
     @Provides @Singleton
-    Converter<String, Strand> createStringToStrandConverter() {
+    Converter<String, Strand> createStringToStrand() {
         return new StringToStrand();
     }
 
     @Provides @Singleton
-    Converter<Strand, String> createStrandToStringConverter() {
+    Converter<Strand, String> createStrandToString() {
         return new StrandToString();
     }
 }
