@@ -14,7 +14,7 @@ To build
 
 ###About bdg-convert
 
-The [`Converter`](https://github.com/heuermh/bdg-convert/blob/master/src/main/java/org/bdgenomics/convert/Converter.java) interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/)(sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a [conversion stringency](https://github.com/heuermh/bdg-convert/blob/master/src/main/java/org/bdgenomics/convert/ConversionStringency.java) and [SLF4J logger](http://www.slf4j.org/) provided as context.
+The [`Converter`](https://github.com/heuermh/bdg-convert/blob/master/src/main/java/org/bdgenomics/convert/Converter.java) interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/) (sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a [conversion stringency](https://github.com/heuermh/bdg-convert/blob/master/src/main/java/org/bdgenomics/convert/ConversionStringency.java) and [SLF4J logger](http://www.slf4j.org/) given as context.
 
 ```java
 public interface Converter<S, T> {
@@ -23,7 +23,9 @@ public interface Converter<S, T> {
 }
 ```
 
-Rather than implement a custom converter registry, `bdg-convert` relies on dependency injection via Google [Guice](https://github.com/google/guice).  Use the `@Inject` annotation to inject converters into class constructors:
+Rather than implement a custom converter registry, `bdg-convert` relies on dependency injection via Google [Guice](https://github.com/google/guice).
+
+Use the `@Inject` annotation to inject converters into class constructors:
 
 ```java
 final class MyClass {
