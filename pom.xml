@@ -25,47 +25,41 @@
     <slf4j.version>1.7.21</slf4j.version>
   </properties>
 
-  <!--
   <licenses>
     <license>
       <name>Apache License</name>
-      <url>https://raw.github.com/bigdatagenomics/adam/master/LICENSE.txt</url>
+      <url>https://raw.github.com/bigdatagenomics/bdg-convert/master/LICENSE</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:git@github.com:bigdatagenomics/adam.git</connection>
-    <developerConnection>scm:git:git@github.com:bigdatagenomics/adam.git</developerConnection>
-    <url>scm:git:git@github.com:bigdatagenomics/adam.git</url>
+    <connection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</connection>
+    <developerConnection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</developerConnection>
+    <url>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</url>
     <tag>master</tag>
   </scm>
   <developers>
     <developer>
-      <id>massie</id>
-      <name>Matt Massie</name>
-      <email>massie@cs.berkeley.edu</email>
-      <url>http://www.cs.berkeley.edu/~massie</url>
-      <organization>U.C. Berkeley Computer Science</organization>
-      <organizationUrl>http://www.cs.berkeley.edu/</organizationUrl>
+      <id>heuermh</id>
     </developer>
   </developers>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/bigdatagenomics/adam/issues</url>
+    <url>https://github.com/bigdatagenomics/bdg-convert/issues</url>
   </issueManagement>
-  -->
+
   <build>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.5.5</version>
+          <version>2.6</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.3</version>
+          <version>2.10.4</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -85,7 +79,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>2.6.1</version>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -134,12 +128,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.6</version>
+          <version>3.0.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>2.7</version>
+          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
