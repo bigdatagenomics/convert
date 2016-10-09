@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 /**
  * Convert String to Dbxref.
  */
-public final class StringToDbxref extends AbstractConverter<String, Dbxref> {
+final class StringToDbxref extends AbstractConverter<String, Dbxref> {
 
     /**
      * Package private constructor.
