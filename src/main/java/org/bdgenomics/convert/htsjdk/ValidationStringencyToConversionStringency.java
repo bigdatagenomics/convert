@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 /**
  * Convert ValidationStrategy to ConversionStrategy.
  */
-public final class ValidationStringencyToConversionStringency extends AbstractConverter<ValidationStringency, ConversionStringency> {
+final class ValidationStringencyToConversionStringency extends AbstractConverter<ValidationStringency, ConversionStringency> {
 
     /**
      * Package private constructor.

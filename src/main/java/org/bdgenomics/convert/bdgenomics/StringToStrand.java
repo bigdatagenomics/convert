@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 /**
  * Convert String to Strand.
  */
-public final class StringToStrand extends AbstractConverter<String, Strand> {
+final class StringToStrand extends AbstractConverter<String, Strand> {
 
     /**
      * Package private constructor.

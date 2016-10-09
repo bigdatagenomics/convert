@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 /**
  * Convert OntologyTerm to String.
  */
-public final class OntologyTermToString extends AbstractConverter<OntologyTerm, String> {
+final class OntologyTermToString extends AbstractConverter<OntologyTerm, String> {
 
     /**
      * Package private constructor.
