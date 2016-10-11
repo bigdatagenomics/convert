@@ -114,7 +114,7 @@ public abstract class AbstractConverter<S, T> implements Converter<S, T> {
             logger.warn("could not convert {} to {}, {}", sourceClass.toString(), targetClass.toString(), message);
         }
         else if (stringency.isStrict()) {
-            throw new ConversionException("could not convert %s to %s, %s".format(sourceClass.toString(), targetClass.toString(), message), cause, source, sourceClass, targetClass);
+            throw new ConversionException(String.format("could not convert %s to %s, %s", sourceClass.toString(), targetClass.toString(), message), cause, source, sourceClass, targetClass);
         }
     }
 }
