@@ -17,20 +17,27 @@
  */
 package org.bdgenomics.convert.bdgenomics;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import org.bdgenomics.convert.Converter;
+import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Dbxref;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Unit test for StringToDbxref.
  */
 public final class StringToDbxrefTest {
+    private final Logger logger = LoggerFactory.getLogger(StringToDbxrefTest.class);
     private Converter<String, Dbxref> dbxrefConverter;
 
     @Before
@@ -41,5 +48,27 @@ public final class StringToDbxrefTest {
     @Test
     public void testConstructor() {
         assertNotNull(dbxrefConverter);
+    }
+
+    @Test(expected=ConversionException.class)
+    public void testConvertNullStrict() {
+        dbxrefConverter.convert(null, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertNullLenient() {
+        assertNull(dbxrefConverter.convert(null, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertNullSilent() {
+        assertNull(dbxrefConverter.convert(null, ConversionStringency.SILENT, logger));
+    }
+
+    @Test
+    public void testConvert() {
+        Dbxref dbxref = dbxrefConverter.convert("EMBL:AA816246", ConversionStringency.STRICT, logger);
+        assertEquals("EMBL", dbxref.getDb());
+        assertEquals("AA816246", dbxref.getAccession());
     }
 }

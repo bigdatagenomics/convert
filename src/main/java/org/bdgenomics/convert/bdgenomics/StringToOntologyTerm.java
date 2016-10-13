@@ -51,6 +51,6 @@ final class StringToOntologyTerm extends AbstractConverter<String, OntologyTerm>
             warnOrThrow(value, "incorrectly formatted OntologyTerm, should be db:accession", null, stringency, logger);
             return null;
         }
-        return new OntologyTerm(value.substring(0, i), value.substring(i));
+        return new OntologyTerm(value.substring(0, i), value.substring(i + 1));
     }
 }

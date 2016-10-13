@@ -51,6 +51,6 @@ final class StringToDbxref extends AbstractConverter<String, Dbxref> {
             warnOrThrow(value, "incorrectly formatted Dbxref, should be db:accession", null, stringency, logger);
             return null;
         }
-        return new Dbxref(value.substring(0, i), value.substring(i));
+        return new Dbxref(value.substring(0, i), value.substring(i + 1));
     }
 }
