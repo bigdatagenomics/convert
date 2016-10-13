@@ -17,20 +17,27 @@
  */
 package org.bdgenomics.convert.bdgenomics;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import org.bdgenomics.convert.Converter;
+import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.OntologyTerm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Unit test for StringToOntologyTerm.
  */
 public final class StringToOntologyTermTest {
+    private final Logger logger = LoggerFactory.getLogger(StringToOntologyTermTest.class);
     private Converter<String, OntologyTerm> ontologyTermConverter;
 
     @Before
@@ -41,5 +48,27 @@ public final class StringToOntologyTermTest {
     @Test
     public void testConstructor() {
         assertNotNull(ontologyTermConverter);
+    }
+
+    @Test(expected=ConversionException.class)
+    public void testConvertNullStrict() {
+        ontologyTermConverter.convert(null, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertNullLenient() {
+        assertNull(ontologyTermConverter.convert(null, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertNullSilent() {
+        assertNull(ontologyTermConverter.convert(null, ConversionStringency.SILENT, logger));
+    }
+
+    @Test
+    public void testConvert() {
+        OntologyTerm ontologyTerm = ontologyTermConverter.convert("GO:0046703", ConversionStringency.STRICT, logger);
+        assertEquals("GO", ontologyTerm.getDb());
+        assertEquals("0046703", ontologyTerm.getAccession());
     }
 }
