@@ -33,6 +33,8 @@ import org.bdgenomics.convert.ConversionStringency;
 import org.bdgenomics.formats.avro.Dbxref;
 import org.bdgenomics.formats.avro.OntologyTerm;
 import org.bdgenomics.formats.avro.Strand;
+import org.bdgenomics.formats.avro.TranscriptEffect;
+import org.bdgenomics.formats.avro.VariantAnnotationMessage;
 
 /**
  * Unit test for BdgenomicsModule.
@@ -60,7 +62,10 @@ public final class BdgenomicsModuleTest {
         assertNotNull(target.getOntologyTermToString());
         assertNotNull(target.getStringToStrand());
         assertNotNull(target.getStrandToString());
-
+        assertNotNull(target.getStringToTranscriptEffect());
+        assertNotNull(target.getTranscriptEffectToString());
+        assertNotNull(target.getStringToVariantAnnotationMessage());
+        assertNotNull(target.getVariantAnnotationMessageToString());
     }
 
     /**
@@ -73,6 +78,10 @@ public final class BdgenomicsModuleTest {
         final Converter<OntologyTerm, String> ontologyTermToString;
         final Converter<String, Strand> stringToStrand;
         final Converter<Strand, String> strandToString;
+        final Converter<String, TranscriptEffect> stringToTranscriptEffect;
+        final Converter<TranscriptEffect, String> transcriptEffectToString;
+        final Converter<String, VariantAnnotationMessage> stringToVariantAnnotationMessage;
+        final Converter<VariantAnnotationMessage, String> variantAnnotationMessageToString;
 
         @Inject
         Target(final Converter<String, Dbxref> stringToDbxref,
@@ -80,7 +89,11 @@ public final class BdgenomicsModuleTest {
                final Converter<String, OntologyTerm> stringToOntologyTerm,
                final Converter<OntologyTerm, String> ontologyTermToString,
                final Converter<String, Strand> stringToStrand,
-               final Converter<Strand, String> strandToString) {
+               final Converter<Strand, String> strandToString,
+               final Converter<String, TranscriptEffect> stringToTranscriptEffect,
+               final Converter<TranscriptEffect, String> transcriptEffectToString,
+               final Converter<String, VariantAnnotationMessage> stringToVariantAnnotationMessage,
+               final Converter<VariantAnnotationMessage, String> variantAnnotationMessageToString) {
 
             this.stringToDbxref = stringToDbxref;
             this.dbxrefToString = dbxrefToString;
@@ -88,6 +101,10 @@ public final class BdgenomicsModuleTest {
             this.ontologyTermToString = ontologyTermToString;
             this.stringToStrand = stringToStrand;
             this.strandToString = strandToString;
+            this.stringToTranscriptEffect = stringToTranscriptEffect;
+            this.transcriptEffectToString = transcriptEffectToString;
+            this.stringToVariantAnnotationMessage = stringToVariantAnnotationMessage;
+            this.variantAnnotationMessageToString = variantAnnotationMessageToString;
         }
 
         Converter<String, Dbxref> getStringToDbxref() {
@@ -112,6 +129,22 @@ public final class BdgenomicsModuleTest {
 
         Converter<Strand, String> getStrandToString() {
             return strandToString;
+        }
+
+        Converter<String, TranscriptEffect> getStringToTranscriptEffect() {
+            return stringToTranscriptEffect;
+        }
+
+        Converter<TranscriptEffect, String> getTranscriptEffectToString() {
+            return transcriptEffectToString;
+        }
+
+        Converter<String, VariantAnnotationMessage> getStringToVariantAnnotationMessage() {
+            return stringToVariantAnnotationMessage;
+        }
+
+        Converter<VariantAnnotationMessage, String> getVariantAnnotationMessageToString() {
+            return variantAnnotationMessageToString;
         }
     }
 
