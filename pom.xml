@@ -18,7 +18,7 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <bdg-formats.version>0.9.0</bdg-formats.version>
+    <bdg-formats.version>0.9.1-SNAPSHOT</bdg-formats.version>
     <guice.version>4.1.0</guice.version>
     <htsjdk.version>2.5.0</htsjdk.version>
     <junit.version>4.12</junit.version>

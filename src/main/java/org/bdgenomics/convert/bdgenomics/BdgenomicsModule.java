@@ -26,6 +26,8 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.formats.avro.Dbxref;
 import org.bdgenomics.formats.avro.OntologyTerm;
 import org.bdgenomics.formats.avro.Strand;
+import org.bdgenomics.formats.avro.TranscriptEffect;
+import org.bdgenomics.formats.avro.VariantAnnotationMessage;
 
 /**
  * Guice module for the org.bdgenomics.convert.bdgenomics package.
@@ -64,5 +66,25 @@ public final class BdgenomicsModule extends AbstractModule {
     @Provides @Singleton
     Converter<Strand, String> createStrandToString() {
         return new StrandToString();
+    }
+
+    @Provides @Singleton
+    Converter<String, TranscriptEffect> createStringToTranscriptEffect(final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter) {
+        return new StringToTranscriptEffect(variantAnnotationMessageConverter);
+    }
+
+    @Provides @Singleton
+    Converter<TranscriptEffect, String> createTranscriptEffectToString(final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter) {
+        return new TranscriptEffectToString(variantAnnotationMessageConverter);
+    }
+
+    @Provides @Singleton
+    Converter<String, VariantAnnotationMessage> createStringToVariantAnnotationMessage() {
+        return new StringToVariantAnnotationMessage();
+    }
+
+    @Provides @Singleton
+    Converter<VariantAnnotationMessage, String> createVariantAnnotationMessageToString() {
+        return new VariantAnnotationMessageToString();
     }
 }
