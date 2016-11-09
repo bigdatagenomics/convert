@@ -66,22 +66,28 @@ final class TranscriptEffectToString extends AbstractConverter<TranscriptEffect,
 
         List<String> messages = transcriptEffect.getMessages().stream().map(m -> variantAnnotationMessageConverter.convert(m, stringency, logger)).collect(toList());
 
-        return Joiner.on("|").join(nullToEmpty(transcriptEffect.getAlternateAllele()),
-                                   Joiner.on("&").join(transcriptEffect.getEffects()),
-                                   "", //nullToEmpty(transcriptEffect.getAnnotationImpact()),
-                                   nullToEmpty(transcriptEffect.getGeneName()),
-                                   nullToEmpty(transcriptEffect.getGeneId()),
-                                   nullToEmpty(transcriptEffect.getFeatureType()),
-                                   nullToEmpty(transcriptEffect.getFeatureId()),
-                                   nullToEmpty(transcriptEffect.getBiotype()),
-                                   nullToEmpty(transcriptEffect.getRank(), transcriptEffect.getTotal()),
-                                   nullToEmpty(transcriptEffect.getTranscriptHgvs()),
-                                   nullToEmpty(transcriptEffect.getProteinHgvs()),
-                                   nullToEmpty(transcriptEffect.getCdnaPosition(), transcriptEffect.getCdnaLength()),
-                                   nullToEmpty(transcriptEffect.getCdsPosition(), transcriptEffect.getCdsLength()),
-                                   nullToEmpty(transcriptEffect.getProteinPosition(), transcriptEffect.getProteinLength()),
-                                   nullToEmpty(transcriptEffect.getDistance()),
-                                   Joiner.on("&").join(messages));
+        try {
+            return Joiner.on("|").join(nullToEmpty(transcriptEffect.getAlternateAllele()),
+                                       Joiner.on("&").join(transcriptEffect.getEffects()),
+                                       "", //nullToEmpty(transcriptEffect.getAnnotationImpact()),
+                                       nullToEmpty(transcriptEffect.getGeneName()),
+                                       nullToEmpty(transcriptEffect.getGeneId()),
+                                       nullToEmpty(transcriptEffect.getFeatureType()),
+                                       nullToEmpty(transcriptEffect.getFeatureId()),
+                                       nullToEmpty(transcriptEffect.getBiotype()),
+                                       nullToEmpty(transcriptEffect.getRank(), transcriptEffect.getTotal()),
+                                       nullToEmpty(transcriptEffect.getTranscriptHgvs()),
+                                       nullToEmpty(transcriptEffect.getProteinHgvs()),
+                                       nullToEmpty(transcriptEffect.getCdnaPosition(), transcriptEffect.getCdnaLength()),
+                                       nullToEmpty(transcriptEffect.getCdsPosition(), transcriptEffect.getCdsLength()),
+                                       nullToEmpty(transcriptEffect.getProteinPosition(), transcriptEffect.getProteinLength()),
+                                       nullToEmpty(transcriptEffect.getDistance()),
+                                       Joiner.on("&").join(messages));
+        }
+        catch (NumberFormatException e) {
+            warnOrThrow(transcriptEffect, e.getMessage(), e, stringency, logger);
+        }
+        return null;
     }
 
     private static String nullToEmpty(final String s) {
@@ -93,8 +99,8 @@ final class TranscriptEffectToString extends AbstractConverter<TranscriptEffect,
     }
 
     private static String nullToEmpty(final Integer a, final Integer b) {
-        if (a == null && b == null) {
-            return "";
+        if (a == null && b != null) {
+            throw new NumberFormatException(String.format("invalid fraction ?/%d, missing numerator", b));
         }
         StringBuilder sb = new StringBuilder();
         sb.append(nullToEmpty(a));

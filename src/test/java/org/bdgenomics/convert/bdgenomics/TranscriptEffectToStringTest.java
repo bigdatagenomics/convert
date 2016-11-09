@@ -21,6 +21,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +44,7 @@ public final class TranscriptEffectToStringTest {
     private Converter<TranscriptEffect, String> transcriptEffectConverter;
     private Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter;
     private final Logger logger = LoggerFactory.getLogger(TranscriptEffectToStringTest.class);
+    private static final String VALID = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453|I3";
 
     @Before
     public void setUp() {
@@ -73,8 +77,56 @@ public final class TranscriptEffectToStringTest {
         assertNull(transcriptEffectConverter.convert(null, ConversionStringency.SILENT, logger));
     }
 
+    @Test(expected=ConversionException.class)
+    public void testConvertInvalidFractionStrict() {
+        TranscriptEffect invalidFraction = TranscriptEffect.newBuilder()
+            .setTotal(4)
+            .build();
+        transcriptEffectConverter.convert(invalidFraction, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertInvalidFractionLenient() {
+        TranscriptEffect invalidFraction = TranscriptEffect.newBuilder()
+            .setTotal(4)
+            .build();
+        assertNull(transcriptEffectConverter.convert(invalidFraction, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertInvalidFractionSilent() {
+        TranscriptEffect invalidFraction = TranscriptEffect.newBuilder()
+            .setTotal(4)
+            .build();
+        assertNull(transcriptEffectConverter.convert(invalidFraction, ConversionStringency.SILENT, logger));
+    }
+
     @Test
     public void testConvert() {
-        //assertEquals("+", transcriptEffectConverter.convert(TranscriptEffect.FORWARD, ConversionStringency.STRICT, logger));
+        TranscriptEffect te = TranscriptEffect.newBuilder()
+            .setAlternateAllele("T")
+            .setEffects(listOf("upstream_gene_variant"))
+            .setGeneName("TAS1R3")
+            .setGeneId("ENSG00000169962")
+            .setFeatureType("transcript")
+            .setFeatureId("ENST00000339381.5")
+            .setBiotype("protein_coding")
+            .setTranscriptHgvs("c.-485C>T")
+            .setRank(1)
+            .setTotal(2)
+            .setCdsPosition(4)
+            .setProteinPosition(1)
+            .setProteinLength(42)
+            .setDistance(453)
+            .setMessages(listOf(VariantAnnotationMessage.INFO_NON_REFERENCE_ANNOTATION))
+            .build();
+
+        assertEquals(VALID, transcriptEffectConverter.convert(te, ConversionStringency.STRICT, logger));
+    }
+
+    private static <T> List<T> listOf(final T value) {
+        List<T> list = new ArrayList<T>();
+        list.add(value);
+        return list;
     }
 }

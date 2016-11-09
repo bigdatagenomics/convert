@@ -20,6 +20,7 @@ package org.bdgenomics.convert.bdgenomics;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +42,11 @@ public final class StringToTranscriptEffectTest {
     private Converter<String, TranscriptEffect> transcriptEffectConverter;
     private Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter;
     private static final Logger logger = LoggerFactory.getLogger(StringToTranscriptEffectTest.class);
+    private static final String EMPTY = "";
+    private static final String INVALID = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453";
+    private static final String INVALID_NUMBER = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|not a number|";
+    private static final String INVALID_FRACTION = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|not a number/2|c.-485C>T|||4|1/42|453|";
+    private static final String VALID = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453|I3";
 
     @Before
     public void setUp() {
@@ -74,22 +80,86 @@ public final class StringToTranscriptEffectTest {
     }
 
     @Test(expected=ConversionException.class)
-    public void testConvertIncorrectlyFormattedStrict() {
-        transcriptEffectConverter.convert("incorrectly formatted", ConversionStringency.STRICT, logger);
+    public void testConvertEmptyStrict() {
+        transcriptEffectConverter.convert(EMPTY, ConversionStringency.STRICT, logger);
     }
 
     @Test
-    public void testConvertIncorrectlyFormattedLenient() {
-        assertNull(transcriptEffectConverter.convert("incorrectly formatted", ConversionStringency.LENIENT, logger));
+    public void testConvertEmptyLenient() {
+        assertNull(transcriptEffectConverter.convert(EMPTY, ConversionStringency.LENIENT, logger));
     }
 
     @Test
-    public void testConvertIncorrectlyFormattedSilent() {
-        assertNull(transcriptEffectConverter.convert("incorrectly formatted", ConversionStringency.SILENT, logger));
+    public void testConvertEmptySilent() {
+        assertNull(transcriptEffectConverter.convert(EMPTY, ConversionStringency.SILENT, logger));
+    }
+
+    @Test(expected=ConversionException.class)
+    public void testConvertInvalidStrict() {
+        transcriptEffectConverter.convert(INVALID, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertInvalidLenient() {
+        assertNull(transcriptEffectConverter.convert(INVALID, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertInvalidSilent() {
+        assertNull(transcriptEffectConverter.convert(INVALID, ConversionStringency.SILENT, logger));
+    }
+
+    @Test(expected=ConversionException.class)
+    public void testConvertInvalidNumberStrict() {
+        transcriptEffectConverter.convert(INVALID_NUMBER, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertInvalidNumberLenient() {
+        assertNull(transcriptEffectConverter.convert(INVALID_NUMBER, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertInvalidNumberSilent() {
+        assertNull(transcriptEffectConverter.convert(INVALID_NUMBER, ConversionStringency.SILENT, logger));
+    }
+
+    @Test(expected=ConversionException.class)
+    public void testConvertInvalidFractionStrict() {
+        transcriptEffectConverter.convert(INVALID_FRACTION, ConversionStringency.STRICT, logger);
+    }
+
+    @Test
+    public void testConvertInvalidFractionLenient() {
+        assertNull(transcriptEffectConverter.convert(INVALID_FRACTION, ConversionStringency.LENIENT, logger));
+    }
+
+    @Test
+    public void testConvertInvalidFractionSilent() {
+        assertNull(transcriptEffectConverter.convert(INVALID_FRACTION, ConversionStringency.SILENT, logger));
     }
 
     @Test
     public void testConvert() {
-        //assertEquals(TranscriptEffect.FORWARD, transcriptEffectConverter.convert("+", ConversionStringency.STRICT, logger));
+        TranscriptEffect te = transcriptEffectConverter.convert(VALID, ConversionStringency.STRICT, logger);
+        assertEquals("T", te.getAlternateAllele());
+        assertTrue(te.getEffects().contains("upstream_gene_variant"));
+        assertEquals("TAS1R3", te.getGeneName());
+        assertEquals("ENSG00000169962", te.getGeneId());
+        assertEquals("transcript", te.getFeatureType());
+        assertEquals("ENST00000339381.5", te.getFeatureId());
+        assertEquals("protein_coding", te.getBiotype());
+        assertEquals(Integer.valueOf(1), te.getRank());
+        assertEquals(Integer.valueOf(2), te.getTotal());
+        assertEquals("c.-485C>T", te.getTranscriptHgvs());
+        assertNull(te.getProteinHgvs());
+        assertNull(te.getCdnaPosition());
+        assertNull(te.getCdnaLength());
+        assertEquals(Integer.valueOf(4), te.getCdsPosition());
+        assertNull(te.getCdsLength());
+        assertEquals(Integer.valueOf(1), te.getProteinPosition());
+        assertEquals(Integer.valueOf(42), te.getProteinLength());
+        assertEquals(Integer.valueOf(453), te.getDistance());
+        assertTrue(te.getMessages().contains(VariantAnnotationMessage.INFO_NON_REFERENCE_ANNOTATION));
     }
 }

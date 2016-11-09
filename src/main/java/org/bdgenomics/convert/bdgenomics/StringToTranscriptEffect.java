@@ -79,7 +79,7 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
         try {
             String alternateAllele = emptyToNull(tokens.get(0));
             List<String> effects = splitEffects(tokens.get(1));
-            String annotationImpact = emptyToNull(tokens.get(2));
+            //String annotationImpact = emptyToNull(tokens.get(2));
             String geneName = emptyToNull(tokens.get(3));
             String geneId = emptyToNull(tokens.get(4));
             String featureType = emptyToNull(tokens.get(5));
