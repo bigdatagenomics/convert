@@ -17,6 +17,8 @@
  */
 package org.bdgenomics.convert;
 
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 
 /**
@@ -25,7 +27,7 @@ import org.slf4j.Logger;
  * @param S source type
  * @param T target type
  */
-public abstract class AbstractConverter<S, T> implements Converter<S, T> {
+public abstract class AbstractConverter<S, T> implements Converter<S, T>, Serializable {
     /** Source class. */
     private final Class<?> sourceClass;
 
@@ -111,7 +113,12 @@ public abstract class AbstractConverter<S, T> implements Converter<S, T> {
 
         checkNotNull(stringency, logger);
         if (stringency.isLenient()) {
-            logger.warn("could not convert {} to {}, {}", sourceClass.toString(), targetClass.toString(), message);
+            if (cause != null) {
+                logger.warn(String.format("could not convert %s to %s, %s", sourceClass.toString(), targetClass.toString(), message), cause);
+            }
+            else {
+                logger.warn("could not convert {} to {}, {}", sourceClass.toString(), targetClass.toString(), message);
+            }
         }
         else if (stringency.isStrict()) {
             throw new ConversionException(String.format("could not convert %s to %s, %s", sourceClass.toString(), targetClass.toString(), message), cause, source, sourceClass, targetClass);
