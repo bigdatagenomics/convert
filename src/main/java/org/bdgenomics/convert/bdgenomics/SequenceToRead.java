@@ -56,7 +56,7 @@ final class SequenceToRead extends AbstractConverter<Sequence, Read> {
             .setLength(sequence.getLength())
             .setQualityScores(unknownQualityScores(sequence.getLength() == null ? 0 : sequence.getLength().intValue()))
             .setQualityScoreVariant(QualityScoreVariant.FASTQ_SANGER)
-            //.setAttributes(sequence.getAttributes())
+            .setAttributes(sequence.getAttributes())
             .build();
     }
 
