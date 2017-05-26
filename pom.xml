@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.bdgenomics.convert</groupId>
   <artifactId>convert</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <packaging>jar</packaging>
   <name>Big Data Genomics: Convert</name>
   <description>Conversions to and from Big Data Genomics Avro Formats</description>
@@ -36,7 +36,7 @@
     <connection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</connection>
     <developerConnection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</developerConnection>
     <url>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</url>
-    <tag>master</tag>
+    <tag>convert-0.1</tag>
   </scm>
   <developers>
     <developer>
