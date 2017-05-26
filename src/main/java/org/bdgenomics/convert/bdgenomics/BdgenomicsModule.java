@@ -25,6 +25,9 @@ import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.Dbxref;
 import org.bdgenomics.formats.avro.OntologyTerm;
+import org.bdgenomics.formats.avro.Read;
+import org.bdgenomics.formats.avro.Sequence;
+import org.bdgenomics.formats.avro.Slice;
 import org.bdgenomics.formats.avro.Strand;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
@@ -86,5 +89,35 @@ public final class BdgenomicsModule extends AbstractModule {
     @Provides @Singleton
     Converter<VariantAnnotationMessage, String> createVariantAnnotationMessageToString() {
         return new VariantAnnotationMessageToString();
+    }
+
+    @Provides @Singleton
+    Converter<Read, Sequence> createReadToSequence() {
+        return new ReadToSequence();
+    }
+
+    @Provides @Singleton
+    Converter<Read, Slice> createReadToSlice() {
+        return new ReadToSlice();
+    }
+
+    @Provides @Singleton
+    Converter<Sequence, Read> createSequenceToRead() {
+        return new SequenceToRead();
+    }
+
+    @Provides @Singleton
+    Converter<Sequence, Slice> createSequenceToSlice() {
+        return new SequenceToSlice();
+    }
+
+    @Provides @Singleton
+    Converter<Slice, Read> createSliceToRead() {
+        return new SliceToRead();
+    }
+
+    @Provides @Singleton
+    Converter<Slice, Sequence> createSliceToSequence() {
+        return new SliceToSequence();
     }
 }

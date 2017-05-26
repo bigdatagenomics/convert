@@ -32,6 +32,9 @@ import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Dbxref;
 import org.bdgenomics.formats.avro.OntologyTerm;
+import org.bdgenomics.formats.avro.Read;
+import org.bdgenomics.formats.avro.Sequence;
+import org.bdgenomics.formats.avro.Slice;
 import org.bdgenomics.formats.avro.Strand;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
@@ -66,6 +69,12 @@ public final class BdgenomicsModuleTest {
         assertNotNull(target.getTranscriptEffectToString());
         assertNotNull(target.getStringToVariantAnnotationMessage());
         assertNotNull(target.getVariantAnnotationMessageToString());
+        assertNotNull(target.getReadToSequence());
+        assertNotNull(target.getReadToSlice());
+        assertNotNull(target.getSequenceToRead());
+        assertNotNull(target.getSequenceToSlice());
+        assertNotNull(target.getSliceToRead());
+        assertNotNull(target.getSliceToSequence());
     }
 
     /**
@@ -82,6 +91,12 @@ public final class BdgenomicsModuleTest {
         final Converter<TranscriptEffect, String> transcriptEffectToString;
         final Converter<String, VariantAnnotationMessage> stringToVariantAnnotationMessage;
         final Converter<VariantAnnotationMessage, String> variantAnnotationMessageToString;
+        final Converter<Read, Sequence> readToSequence;
+        final Converter<Read, Slice> readToSlice;
+        final Converter<Sequence, Read> sequenceToRead;
+        final Converter<Sequence, Slice> sequenceToSlice;
+        final Converter<Slice, Read> sliceToRead;
+        final Converter<Slice, Sequence> sliceToSequence;
 
         @Inject
         Target(final Converter<String, Dbxref> stringToDbxref,
@@ -93,7 +108,13 @@ public final class BdgenomicsModuleTest {
                final Converter<String, TranscriptEffect> stringToTranscriptEffect,
                final Converter<TranscriptEffect, String> transcriptEffectToString,
                final Converter<String, VariantAnnotationMessage> stringToVariantAnnotationMessage,
-               final Converter<VariantAnnotationMessage, String> variantAnnotationMessageToString) {
+               final Converter<VariantAnnotationMessage, String> variantAnnotationMessageToString,
+               final Converter<Read, Sequence> readToSequence,
+               final Converter<Read, Slice> readToSlice,
+               final Converter<Sequence, Read> sequenceToRead,
+               final Converter<Sequence, Slice> sequenceToSlice,
+               final Converter<Slice, Read> sliceToRead,
+               final Converter<Slice, Sequence> sliceToSequence) {
 
             this.stringToDbxref = stringToDbxref;
             this.dbxrefToString = dbxrefToString;
@@ -105,6 +126,12 @@ public final class BdgenomicsModuleTest {
             this.transcriptEffectToString = transcriptEffectToString;
             this.stringToVariantAnnotationMessage = stringToVariantAnnotationMessage;
             this.variantAnnotationMessageToString = variantAnnotationMessageToString;
+            this.readToSequence = readToSequence;
+            this.readToSlice = readToSlice;
+            this.sequenceToRead = sequenceToRead;
+            this.sequenceToSlice = sequenceToSlice;
+            this.sliceToRead = sliceToRead;
+            this.sliceToSequence = sliceToSequence;
         }
 
         Converter<String, Dbxref> getStringToDbxref() {
@@ -145,6 +172,30 @@ public final class BdgenomicsModuleTest {
 
         Converter<VariantAnnotationMessage, String> getVariantAnnotationMessageToString() {
             return variantAnnotationMessageToString;
+        }
+
+        Converter<Read, Sequence> getReadToSequence() {
+            return readToSequence;
+        }
+
+        Converter<Read, Slice> getReadToSlice() {
+            return readToSlice;
+        }
+
+        Converter<Sequence, Read> getSequenceToRead() {
+            return sequenceToRead;
+        }
+
+        Converter<Sequence, Slice> getSequenceToSlice() {
+            return sequenceToSlice;
+        }
+
+        Converter<Slice, Read> getSliceToRead() {
+            return sliceToRead;
+        }
+
+        Converter<Slice, Sequence> getSliceToSequence() {
+            return sliceToSequence;
         }
     }
 
