@@ -56,7 +56,7 @@ final class SliceToRead extends AbstractConverter<Slice, Read> {
             .setLength(slice.getLength())
             .setQualityScores(unknownQualityScores(slice.getLength() == null ? 0 : slice.getLength().intValue()))
             .setQualityScoreVariant(QualityScoreVariant.FASTQ_SANGER)
-            //.setAttributes(slice.getAttributes())
+            .setAttributes(slice.getAttributes())
             .build();
     }
 

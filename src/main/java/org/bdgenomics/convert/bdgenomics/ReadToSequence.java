@@ -53,7 +53,7 @@ final class ReadToSequence extends AbstractConverter<Read, Sequence> {
             .setAlphabet(read.getAlphabet())
             .setSequence(read.getSequence())
             .setLength(read.getLength())
-            //.setAttributes(read.getAttributes())
+            .setAttributes(read.getAttributes())
             .build();
     }
 }
