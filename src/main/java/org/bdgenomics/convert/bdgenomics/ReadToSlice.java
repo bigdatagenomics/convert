@@ -57,7 +57,7 @@ final class ReadToSlice extends AbstractConverter<Read, Slice> {
             .setStart(0L)
             .setEnd(read.getLength())
             .setStrand(Strand.INDEPENDENT)
-            //.setAttributes(read.getAttributes())
+            .setAttributes(read.getAttributes())
             .build();
     }
 }

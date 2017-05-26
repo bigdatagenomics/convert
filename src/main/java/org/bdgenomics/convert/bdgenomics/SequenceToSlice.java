@@ -57,7 +57,7 @@ final class SequenceToSlice extends AbstractConverter<Sequence, Slice> {
             .setStart(0L)
             .setEnd(sequence.getLength())
             .setStrand(Strand.INDEPENDENT)
-            //.setAttributes(sequence.getAttributes())
+            .setAttributes(sequence.getAttributes())
             .build();
     }
 }
