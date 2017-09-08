@@ -209,9 +209,9 @@
   </dependencyManagement>
 
   <modules>
-    <module>core</module>
-    <module>htsjdk</module>
-    <module>ga4gh</module>
+    <module>convert</module>
+    <module>convert-htsjdk</module>
+    <module>convert-ga4gh</module>
   </modules>
 
   <profiles>
