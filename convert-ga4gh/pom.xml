@@ -58,5 +58,9 @@
       <artifactId>slf4j-simple</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    <groupId>org.bdgenomics.adam</groupId>
+    <artifactId>adam-core${spark.version.prefix}${scala.version.prefix}</artifactId>
+    </dependency>
   </dependencies>
 </project>
