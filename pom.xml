@@ -19,6 +19,7 @@
   <properties>
     <java.version>1.8</java.version>
     <bdg-formats.version>0.11.1</bdg-formats.version>
+    <bdg-utils.version>0.2.13</bdg-utils.version>
     <commons-lang3.version>3.6</commons-lang3.version>
     <ga4gh.version>0.6.0a10</ga4gh.version>
     <guice.version>4.1.0</guice.version>
@@ -27,6 +28,10 @@
     <junit.version>4.12</junit.version>
     <protobuf.version>3.0.0-beta-3</protobuf.version>
     <slf4j.version>1.7.22</slf4j.version>
+    <scala.version>2.10.6</scala.version>
+    <scala.version.prefix>2.10</scala.version.prefix>
+    <adam.version>0.21.1-SNAPSHOT</adam.version>
+    <spark.version.prefix>_</spark.version.prefix>
   </properties>
 
   <licenses>
@@ -205,6 +210,26 @@
         <artifactId>slf4j-simple</artifactId>
         <version>${slf4j.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.bdgenomics.adam</groupId>
+        <artifactId>adam-core${spark.version.prefix}${scala.version.prefix}</artifactId>
+        <version>${adam.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.bdgenomics.utils</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+      <groupId>org.bdgenomics.utils</groupId>
+      <artifactId>utils-misc_${scala.version.prefix}</artifactId>
+      <version>${bdg-utils.version}</version>
+      </dependency>
+
+
+
     </dependencies>
   </dependencyManagement>
 
@@ -215,7 +240,8 @@
   </modules>
 
   <profiles>
-    <!-- Only sign artifacts when we are performing a release, not snapshots -->
+   <!--
+
     <profile>
       <id>sonatype-oss-release</id>
       <build>
@@ -237,5 +263,8 @@
         </plugins>
       </build>
     </profile>
+    -->
+
+
   </profiles>
 </project>
