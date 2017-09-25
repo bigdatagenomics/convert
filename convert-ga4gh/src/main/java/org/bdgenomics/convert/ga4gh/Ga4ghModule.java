@@ -35,6 +35,8 @@ import com.google.inject.Singleton;
 import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Genotype;
+import org.bdgenomics.formats.avro.GenotypeAllele;
 
 /**
  * Guice module for the org.bdgenomics.convert.ga4gh package.
@@ -57,8 +59,23 @@ public final class Ga4ghModule extends AbstractModule {
     }
 
     @Provides @Singleton
+    Converter<GenotypeAllele, String> createGenotyepAlleleToString() {
+        return new GenotypeAlleleToString();
+    }
+
+    @Provides @Singleton
     Converter<AlignmentRecord, ReadAlignment> createAlignmentRecordToReadAlignment(Converter<Cigar, List<CigarUnit>> cigarConverter) {
         return new AlignmentRecordToReadAlignment(cigarConverter);
+    }
+
+    @Provides @Singleton
+    Converter<org.bdgenomics.formats.avro.Variant, ga4gh.Variants.Variant> createBdgenomicsVariantToGa4ghVariant() {
+        return new BdgenomicsVariantToGa4ghVariant();
+    }
+
+    @Provides @Singleton
+    Converter<org.bdgenomics.formats.avro.Genotype, ga4gh.Variants.Call> createBdgenomicsGenotypeToGa4ghCall(Converter<GenotypeAllele,String> genotypeAlleleConverter) {
+        return new BdgenomicsGenotypeToGa4ghCall(genotypeAlleleConverter);
     }
 
     @Provides @Singleton
