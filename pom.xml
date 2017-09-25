@@ -32,14 +32,14 @@
   <licenses>
     <license>
       <name>Apache License</name>
-      <url>https://raw.github.com/bigdatagenomics/bdg-convert/master/LICENSE</url>
+      <url>https://raw.github.com/bigdatagenomics/convert/master/LICENSE</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</connection>
-    <developerConnection>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</developerConnection>
-    <url>scm:git:git@github.com:bigdatagenomics/bdg-convert.git</url>
+    <connection>scm:git:git@github.com:bigdatagenomics/convert.git</connection>
+    <developerConnection>scm:git:git@github.com:bigdatagenomics/convert.git</developerConnection>
+    <url>scm:git:git@github.com:bigdatagenomics/convert.git</url>
     <tag>master</tag>
   </scm>
   <developers>
@@ -49,7 +49,7 @@
   </developers>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/bigdatagenomics/bdg-convert/issues</url>
+    <url>https://github.com/bigdatagenomics/convert/issues</url>
   </issueManagement>
 
   <build>
@@ -113,11 +113,11 @@
                 <rules>
                   <requireMavenVersion>
                     <version>[3.1.1,)</version>
-                    <message>bdg-convert requires Maven 3.1.1 or greater</message>
+                    <message>convert requires Maven 3.1.1 or greater</message>
                   </requireMavenVersion>
                   <requireJavaVersion>
                     <version>[1.8,)</version>
-                    <message>bdg-convert requires Java 1.8 or greater</message>
+                    <message>convert requires Java 1.8 or greater</message>
                   </requireJavaVersion>
                 </rules>
               </configuration>
