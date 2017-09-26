@@ -73,12 +73,14 @@ public class BdgenomicsGenotypeToGa4ghCall extends AbstractConverter<org.bdgenom
 
         java.util.List<Double> gl = genotype.getGenotypeLikelihoods();
 
-        ga4gh.Variants.Call.Builder builder = ga4gh.Variants.Call.newBuilder()
-                .setCallSetName(genotype.getSampleId())
-                .setCallSetId("NA")
-                .setGenotype(calls);
+        ga4gh.Variants.Call.Builder builder = ga4gh.Variants.Call.newBuilder();
+        if(genotype.getSampleId() != null) {
+            builder.setCallSetName(genotype.getSampleId());
+        }
 
-        if (genotype.getPhased()) {
+        builder.setGenotype(calls);
+
+        if (genotype.getPhased() && genotype.getPhaseSetId() != null) {
             builder = builder.setPhaseset(genotype.getPhaseSetId().toString());
 
         }
