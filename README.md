@@ -14,7 +14,7 @@ To build
 
 ### About convert
 
-The [`Converter`](https://github.com/bigdatagenomics/convert/blob/master/src/main/java/org/bdgenomics/convert/Converter.java) interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/) (sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a [conversion stringency](https://github.com/bigdatagenomics/convert/blob/master/src/main/java/org/bdgenomics/convert/ConversionStringency.java) and [SLF4J logger](http://www.slf4j.org/) given as context.
+The [`Converter`](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/Converter.java) interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/) (sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a [conversion stringency](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/ConversionStringency.java) and [SLF4J logger](http://www.slf4j.org/) given as context.
 
 ```java
 public interface Converter<S, T> {
