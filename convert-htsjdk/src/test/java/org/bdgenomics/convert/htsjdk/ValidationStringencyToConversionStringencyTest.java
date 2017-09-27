@@ -22,19 +22,14 @@ import static org.bdgenomics.convert.ConversionStringency.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Guice;
-
 import htsjdk.samtools.ValidationStringency;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

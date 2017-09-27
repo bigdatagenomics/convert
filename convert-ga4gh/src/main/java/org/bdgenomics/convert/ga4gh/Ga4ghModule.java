@@ -35,7 +35,6 @@ import com.google.inject.Singleton;
 import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.AlignmentRecord;
-import org.bdgenomics.formats.avro.Genotype;
 import org.bdgenomics.formats.avro.GenotypeAllele;
 
 /**

@@ -33,15 +33,14 @@ import ga4gh.Reads.ReadAlignment;
 import htsjdk.samtools.Cigar;
 import htsjdk.samtools.CigarOperator;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import org.bdgenomics.convert.Converter;
-import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.convert.bdgenomics.BdgenomicsModule;
 
 import org.bdgenomics.formats.avro.AlignmentRecord;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit test for Ga4ghModule.

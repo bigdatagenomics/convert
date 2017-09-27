@@ -28,7 +28,6 @@ import org.bdgenomics.convert.ConversionStringency;
 import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.GenotypeAllele;
-import org.bdgenomics.formats.avro.Genotype;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +35,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Unit test for BdgenomicsGenotypeToGa4ghCall.
+ */
 public final class BdgenomicsGenotypeToGa4ghCallTest {
     private final Logger logger = LoggerFactory.getLogger(BdgenomicsGenotypeToGa4ghCallTest.class);
     private Converter<org.bdgenomics.formats.avro.Genotype, ga4gh.Variants.Call> callConverter;

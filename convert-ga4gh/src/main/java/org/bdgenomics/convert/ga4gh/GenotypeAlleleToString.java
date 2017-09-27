@@ -17,9 +17,9 @@
  */
 package org.bdgenomics.convert.ga4gh;
 
-import org.bdgenomics.convert.AbstractConverter;
-import org.bdgenomics.formats.avro.GenotypeAllele;
+import javax.annotation.concurrent.Immutable;
 
+import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
@@ -27,21 +27,29 @@ import org.bdgenomics.formats.avro.GenotypeAllele;
 
 import org.slf4j.Logger;
 
-import javax.annotation.concurrent.Immutable;
-
-
+/**
+ * Convert bdg-formats GenotypeAllele to String.
+ */
 @Immutable
 final class GenotypeAlleleToString extends AbstractConverter<GenotypeAllele, String> {
+
+    /**
+     * Convert bdg-formats GenotypeAllele to String.
+     */
     GenotypeAlleleToString() {
         super(org.bdgenomics.formats.avro.GenotypeAllele.class, String.class);
     }
 
     @Override
     public String convert(final org.bdgenomics.formats.avro.GenotypeAllele genotypeAllele,
-    final ConversionStringency stringency,
-    final Logger logger) throws ConversionException {
-        if (genotypeAllele == GenotypeAllele.REF || genotypeAllele == GenotypeAllele.OTHER_ALT) return "0";
-        else if (genotypeAllele == GenotypeAllele.ALT ) return "1";
-        else return ".";
+                          final ConversionStringency stringency,
+                          final Logger logger) throws ConversionException {
+        if (genotypeAllele == GenotypeAllele.REF || genotypeAllele == GenotypeAllele.OTHER_ALT) {
+            return "0";
+        }
+        else if (genotypeAllele == GenotypeAllele.ALT ) {
+            return "1";
+        }
+        return ".";
     }
 }

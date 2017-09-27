@@ -17,35 +17,36 @@
  */
 package org.bdgenomics.convert.ga4gh;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
 import com.google.protobuf.ListValue;
-import com.google.protobuf.Value;
-
-import ga4gh.Variants;
-import ga4gh.Variants.Call;
 
 import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
-
 import org.bdgenomics.convert.Converter;
-import org.bdgenomics.formats.avro.AlignmentRecord;
-import org.bdgenomics.formats.avro.Genotype;
 
-import org.bdgenomics.formats.avro.Genotype;
 import org.bdgenomics.formats.avro.GenotypeAllele;
+
 import org.slf4j.Logger;
 
+/**
+ * Convert bdg-formats Genotype to GA4GH Call.
+ */
 @Immutable
 public class BdgenomicsGenotypeToGa4ghCall extends AbstractConverter<org.bdgenomics.formats.avro.Genotype, ga4gh.Variants.Call> {
-
+    /** Convert bdg-formats GenotypeAllele to String. */
     private final Converter<GenotypeAllele, String> genotypeAlleleConverter;
 
 
-    BdgenomicsGenotypeToGa4ghCall(final Converter<GenotypeAllele,String> genotypeAlleleConverter) {
+    /**
+     * Convert bdg-formats Genotype to GA4GH Call.
+     *
+     * @param genotypeAlleleConverter genotype allele converter, must not be null
+     */
+    BdgenomicsGenotypeToGa4ghCall(final Converter<GenotypeAllele, String> genotypeAlleleConverter) {
         super(org.bdgenomics.formats.avro.Genotype.class, ga4gh.Variants.Call.class);
         checkNotNull(genotypeAlleleConverter);
         this.genotypeAlleleConverter = genotypeAlleleConverter;
@@ -60,7 +61,7 @@ public class BdgenomicsGenotypeToGa4ghCall extends AbstractConverter<org.bdgenom
             return null;
         }
 
-        java.util.List<GenotypeAllele> inputAlleles = genotype.getAlleles();
+        List<GenotypeAllele> inputAlleles = genotype.getAlleles();
         String alleleFirst = genotypeAlleleConverter.convert(inputAlleles.get(0), stringency, logger);
         String alleleSecond = ".";
         if (inputAlleles.size() == 2) {
@@ -71,23 +72,20 @@ public class BdgenomicsGenotypeToGa4ghCall extends AbstractConverter<org.bdgenom
         com.google.protobuf.Value alleleSecondValue = com.google.protobuf.Value.newBuilder().setStringValue(alleleSecond).build();
         com.google.protobuf.ListValue calls = ListValue.newBuilder().addValues(alleleFirstValue).addValues(alleleSecondValue).build();
 
-        java.util.List<Double> gl = genotype.getGenotypeLikelihoods();
+        List<Double> gl = genotype.getGenotypeLikelihoods();
 
         ga4gh.Variants.Call.Builder builder = ga4gh.Variants.Call.newBuilder();
-        if(genotype.getSampleId() != null) {
+        if (genotype.getSampleId() != null) {
             builder.setCallSetName(genotype.getSampleId());
         }
-
         builder.setGenotype(calls);
 
         if (genotype.getPhased() && genotype.getPhaseSetId() != null) {
             builder = builder.setPhaseset(genotype.getPhaseSetId().toString());
-
         }
         if (!gl.isEmpty()) {
             builder = builder.addAllGenotypeLikelihood(gl);
         }
-
         builder.setCallSetId(genotype.getSampleId());
         return builder.build();
     }

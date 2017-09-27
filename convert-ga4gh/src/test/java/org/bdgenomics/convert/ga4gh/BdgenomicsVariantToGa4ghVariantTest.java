@@ -23,12 +23,9 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 
-
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 import org.bdgenomics.convert.Converter;
-
-import org.bdgenomics.formats.avro.Variant;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -85,9 +82,9 @@ public final class BdgenomicsVariantToGa4ghVariantTest {
     public void testConvert() {
         ga4gh.Variants.Variant ga4ghVariant = variantConverter.convert(bdgVariant, ConversionStringency.STRICT, logger);
         assertEquals("1", ga4ghVariant.getReferenceName());
-        assertEquals( 19190L, ga4ghVariant.getStart());
+        assertEquals(19190L, ga4ghVariant.getStart());
         assertEquals(19191L, ga4ghVariant.getEnd());
-        assertEquals( "G", ga4ghVariant.getReferenceBases());
+        assertEquals("G", ga4ghVariant.getReferenceBases());
         assertEquals("A", ga4ghVariant.getAlternateBases(0));
 
     }
