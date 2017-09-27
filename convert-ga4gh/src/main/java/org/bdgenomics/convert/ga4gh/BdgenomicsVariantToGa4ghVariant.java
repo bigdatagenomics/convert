@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@
 package org.bdgenomics.convert.ga4gh;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 import java.util.Arrays;
 import javax.annotation.concurrent.Immutable;
 
@@ -39,20 +40,40 @@ public class BdgenomicsVariantToGa4ghVariant extends AbstractConverter<org.bdgen
                                           final ConversionStringency stringency,
                                           final Logger logger) throws ConversionException {
         if (variant == null) {
-                warnOrThrow(variant, "must not be null", null, stringency, logger);
-                return null;
-            }
+            warnOrThrow(variant, "must not be null", null, stringency, logger);
+            return null;
+        }
 
-        return ga4gh.Variants.Variant.newBuilder()
-                .addAllNames(variant.getNames())
-                .setReferenceName(variant.getContigName())
-                .setStart(variant.getStart())
-                .setEnd(variant.getEnd())
-                .setReferenceBases(variant.getReferenceAllele())
-                .addAllAlternateBases(Arrays.asList(variant.getAlternateAllele() ))
-                .addAllFiltersFailed(variant.getFiltersFailed())
-                .setFiltersPassed(variant.getFiltersPassed())
-                .setFiltersApplied(variant.getFiltersApplied())
-                .build();
+        ga4gh.Variants.Variant.Builder builder = ga4gh.Variants.Variant.newBuilder();
+
+        if (variant.getNames() != null && !variant.getNames().isEmpty()) {
+            builder.addAllNames(variant.getNames());
+        }
+        if (variant.getContigName() != null) {
+            builder.setReferenceName(variant.getContigName());
+        }
+        if (variant.getStart() != null) {
+            builder.setStart(variant.getStart());
+        }
+        if (variant.getEnd() != null) {
+            builder.setEnd(variant.getEnd());
+        }
+        if (variant.getReferenceAllele() != null) {
+            builder.setReferenceBases(variant.getReferenceAllele());
+        }
+        if (variant.getAlternateAllele() != null) {
+            builder.addAllAlternateBases(Arrays.asList(variant.getAlternateAllele()));
+        }
+        if (variant.getFiltersFailed() != null && !variant.getFiltersFailed().isEmpty()) {
+            builder.addAllFiltersFailed(variant.getFiltersFailed());
+        }
+        if (variant.getFiltersPassed() != null) {
+            builder.setFiltersPassed(variant.getFiltersPassed());
+        }
+        if (variant.getFiltersApplied() != null) {
+            builder.setFiltersPassed(variant.getFiltersApplied());
+        }
+
+        return builder.build();
     }
 }

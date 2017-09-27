@@ -62,12 +62,22 @@ final class BdgenomicsFeatureToGa4ghFeature extends AbstractConverter<org.bdgeno
             return null;
         }
 
-        return ga4gh.SequenceAnnotations.Feature.newBuilder()
-            .setStart(feature.getStart())
-            .setEnd(feature.getEnd())
-            .setStrand(strandConverter.convert(feature.getStrand(), stringency, logger))
-            .setReferenceName(feature.getContigName())
-            .setFeatureType(featureTypeConverter.convert(feature.getFeatureType(), stringency, logger))
-            .build();
+        ga4gh.SequenceAnnotations.Feature.Builder builder =   ga4gh.SequenceAnnotations.Feature.newBuilder();
+        if(feature.getStart() != null) {
+           builder.setStart(feature.getStart());
+        }
+        if(feature.getEnd() != null) {
+           builder.setEnd(feature.getEnd());
+        }
+        if(feature.getStrand() != null) {
+           builder.setStrand(strandConverter.convert(feature.getStrand(), stringency, logger));
+        }
+        if(feature.getContigName() != null) {
+           builder.setReferenceName(feature.getContigName());
+        }
+        if(feature.getFeatureType() != null) {
+            builder.setFeatureType( ga4gh.Common.OntologyTerm.newBuilder().setTermId(feature.getFeatureType()) );
+        }
+        return builder.build();
     }
 }
