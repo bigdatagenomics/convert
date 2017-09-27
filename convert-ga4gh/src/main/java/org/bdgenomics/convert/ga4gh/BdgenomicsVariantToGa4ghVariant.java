@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,9 +17,8 @@
  */
 package org.bdgenomics.convert.ga4gh;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-
 import java.util.Arrays;
+
 import javax.annotation.concurrent.Immutable;
 
 import org.bdgenomics.convert.AbstractConverter;
@@ -28,9 +27,15 @@ import org.bdgenomics.convert.ConversionStringency;
 
 import org.slf4j.Logger;
 
+/**
+ * Convert bdg-formats Variant to GA4GH Variant.
+ */
 @Immutable
 public class BdgenomicsVariantToGa4ghVariant extends AbstractConverter<org.bdgenomics.formats.avro.Variant, ga4gh.Variants.Variant> {
 
+    /**
+     * Convert bdg-formats Variant to GA4GH Variant.
+     */
     BdgenomicsVariantToGa4ghVariant() {
         super(org.bdgenomics.formats.avro.Variant.class, ga4gh.Variants.Variant.class);
     }

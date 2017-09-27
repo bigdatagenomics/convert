@@ -24,9 +24,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
 
@@ -38,6 +35,9 @@ import org.bdgenomics.formats.avro.Slice;
 import org.bdgenomics.formats.avro.Strand;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit test for BdgenomicsModule.

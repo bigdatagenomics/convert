@@ -21,9 +21,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Arrays;
-import java.util.List;
-
 import ga4gh.Reads.CigarUnit.Operation;
 
 import htsjdk.samtools.CigarOperator;

@@ -25,7 +25,6 @@ import javax.annotation.concurrent.Immutable;
 
 import ga4gh.Reads.CigarUnit;
 import ga4gh.Reads.CigarUnit.Operation;
-import ga4gh.Reads.ReadAlignment;
 
 import htsjdk.samtools.Cigar;
 import htsjdk.samtools.CigarElement;
