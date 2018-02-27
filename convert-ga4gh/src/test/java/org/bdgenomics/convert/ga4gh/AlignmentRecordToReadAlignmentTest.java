@@ -140,6 +140,39 @@ public final class AlignmentRecordToReadAlignmentTest {
     }
 
     @Test
+    public void testConvertNoMapq() {
+      AlignmentRecord alignmentNoMapq = AlignmentRecord.newBuilder()
+          .setReadName("read0")
+          .setStart(10L)
+          .setReadMapped(true)
+          .setCigar("10M")
+          .setSequence("AAAAAAAAAA")
+          .setQual("**********")
+          .setReadNegativeStrand(false)
+          .setMismatchingPositions("10")
+          .setOldPosition(12L)
+          .setOldCigar("2^AAA3")
+          .setRecordGroupName("rg1")
+          .setContigName("myCtg")
+          .setProperPair(true)
+          .setDuplicateRead(false)
+          .setFailedVendorQualityChecks(false)
+          .setSecondaryAlignment(false)
+          .setSupplementaryAlignment(false)
+          .setMateContigName("myCtg")
+          .setMateNegativeStrand(false)
+          .setMateAlignmentStart(100L)
+          .setMateMapped(true)
+          .setReadPaired(true)
+          .setInferredInsertSize(200L)
+          .build();
+
+      ReadAlignment readAlignment = alignmentConverter.convert(alignmentNoMapq, ConversionStringency.STRICT, logger);
+
+      assertEquals(0, readAlignment.getAlignment().getMappingQuality());
+    }
+
+    @Test
     public void testJson() throws Exception {
         ReadAlignment readAlignment = alignmentConverter.convert(alignment, ConversionStringency.STRICT, logger);
 

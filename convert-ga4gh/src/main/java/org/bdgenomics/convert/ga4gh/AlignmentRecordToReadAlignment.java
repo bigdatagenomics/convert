@@ -114,8 +114,10 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
                 .build();
 
             LinearAlignment.Builder alignmentBuilder = LinearAlignment.newBuilder()
-                .setPosition(position)
-                .setMappingQuality(alignmentRecord.getMapq());
+                .setPosition(position);
+
+            if (alignmentRecord.getMapq() != null)
+              alignmentBuilder.setMappingQuality(alignmentRecord.getMapq());
 
             Cigar cigar = null;
             try {
