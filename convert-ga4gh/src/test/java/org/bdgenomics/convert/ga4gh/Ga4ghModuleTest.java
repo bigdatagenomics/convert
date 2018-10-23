@@ -26,9 +26,12 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 
+import ga4gh.Common.Program;
+
 import ga4gh.Reads.CigarUnit;
 import ga4gh.Reads.CigarUnit.Operation;
 import ga4gh.Reads.ReadAlignment;
+import ga4gh.Reads.ReadGroup;
 
 import htsjdk.samtools.Cigar;
 import htsjdk.samtools.CigarOperator;
@@ -38,6 +41,8 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.bdgenomics.BdgenomicsModule;
 
 import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.ProcessingStep;
+import org.bdgenomics.formats.avro.RecordGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -71,6 +76,10 @@ public final class Ga4ghModuleTest {
         assertNotNull(target.getCigarOperatorToOperation());
         assertNotNull(target.getCigarToCigarUnits());
         assertNotNull(target.getAlignmentRecordToReadAlignment());
+        assertNotNull(target.getProcessingStepToProgram());
+        assertNotNull(target.getProgramToProcessingStep());
+        assertNotNull(target.getReadGroupToRecordGroup());
+        assertNotNull(target.getRecordGroupToReadGroup());
     }
 
     /**
@@ -86,6 +95,10 @@ public final class Ga4ghModuleTest {
         Converter<CigarOperator, Operation> cigarOperatorToOperation;
         Converter<Cigar, List<CigarUnit>> cigarToCigarUnits;
         Converter<AlignmentRecord, ReadAlignment> alignmentRecordToReadAlignment;
+        Converter<ProcessingStep, Program> processingStepToProgram;
+        Converter<Program, ProcessingStep> programToProcessingStep;
+        Converter<ReadGroup, RecordGroup> readGroupToRecordGroup;
+        Converter<RecordGroup, ReadGroup> recordGroupToReadGroup;
 
         @Inject
         Target(final Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> bdgenomicsFeatureToGa4ghFeature,
@@ -96,7 +109,11 @@ public final class Ga4ghModuleTest {
                final Converter<ga4gh.Common.Strand, org.bdgenomics.formats.avro.Strand> ga4ghStrandToBdgenomicsStrand,
                final Converter<CigarOperator, Operation> cigarOperatorToOperation,
                final Converter<Cigar, List<CigarUnit>> cigarToCigarUnits,
-               final Converter<AlignmentRecord, ReadAlignment> alignmentRecordToReadAlignment) {
+               final Converter<AlignmentRecord, ReadAlignment> alignmentRecordToReadAlignment,
+               final Converter<ProcessingStep, Program> processingStepToProgram,
+               final Converter<Program, ProcessingStep> programToProcessingStep,
+               final Converter<ReadGroup, RecordGroup> readGroupToRecordGroup,
+               final Converter<RecordGroup, ReadGroup> recordGroupToReadGroup) {
 
             this.bdgenomicsFeatureToGa4ghFeature = bdgenomicsFeatureToGa4ghFeature;
             this.bdgenomicsOntologyTermToGa4ghOntologyTerm = bdgenomicsOntologyTermToGa4ghOntologyTerm;
@@ -107,6 +124,10 @@ public final class Ga4ghModuleTest {
             this.cigarOperatorToOperation = cigarOperatorToOperation;
             this.cigarToCigarUnits = cigarToCigarUnits;
             this.alignmentRecordToReadAlignment = alignmentRecordToReadAlignment;
+            this.processingStepToProgram = processingStepToProgram;
+            this.programToProcessingStep = programToProcessingStep;
+            this.readGroupToRecordGroup = readGroupToRecordGroup;
+            this.recordGroupToReadGroup = recordGroupToReadGroup;
         }
 
         Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> getBdgenomicsFeatureToGa4ghFeature() {
@@ -145,6 +166,21 @@ public final class Ga4ghModuleTest {
             return alignmentRecordToReadAlignment;
         }
 
+        Converter<ProcessingStep, Program> getProcessingStepToProgram() {
+            return processingStepToProgram;
+        }
+
+        Converter<Program, ProcessingStep> getProgramToProcessingStep() {
+            return programToProcessingStep;
+        }
+
+        Converter<ReadGroup, RecordGroup> getReadGroupToRecordGroup() {
+            return readGroupToRecordGroup;
+        }
+
+        Converter<RecordGroup, ReadGroup> getRecordGroupToReadGroup() {
+            return recordGroupToReadGroup;
+        }
     }
 
     /**
