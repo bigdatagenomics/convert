@@ -21,9 +21,12 @@ import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
+import ga4gh.Common.Program;
+
 import ga4gh.Reads.CigarUnit;
 import ga4gh.Reads.CigarUnit.Operation;
 import ga4gh.Reads.ReadAlignment;
+import ga4gh.Reads.ReadGroup;
 
 import htsjdk.samtools.Cigar;
 import htsjdk.samtools.CigarOperator;
@@ -36,6 +39,8 @@ import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.AlignmentRecord;
 import org.bdgenomics.formats.avro.GenotypeAllele;
+import org.bdgenomics.formats.avro.ProcessingStep;
+import org.bdgenomics.formats.avro.RecordGroup;
 
 /**
  * Guice module for the org.bdgenomics.convert.ga4gh package.
@@ -105,5 +110,25 @@ public final class Ga4ghModule extends AbstractModule {
     @Provides @Singleton
     Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> createBdgenomicsFeatureToGa4ghFeature(final Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter, final Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter) {
         return new BdgenomicsFeatureToGa4ghFeature(featureTypeConverter, strandConverter);
+    }
+
+    @Provides @Singleton
+    Converter<Program, ProcessingStep> createProgramToProcessingStep() {
+        return new ProgramToProcessingStep();
+    }
+
+    @Provides @Singleton
+    Converter<ProcessingStep, Program> createProcessingStepToProgram() {
+        return new ProcessingStepToProgram();
+    }
+
+    @Provides @Singleton
+    Converter<ReadGroup, RecordGroup> createReadGroupToRecordGroup(final Converter<Program, ProcessingStep> programConverter) {
+        return new ReadGroupToRecordGroup(programConverter);
+    }
+
+    @Provides @Singleton
+    Converter<RecordGroup, ReadGroup> createRecordGroupToReadGroup(final Converter<ProcessingStep, Program> processingStepConverter) {
+        return new RecordGroupToReadGroup(processingStepConverter);
     }
 }
