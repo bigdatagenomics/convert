@@ -108,8 +108,20 @@ public final class Ga4ghModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> createBdgenomicsFeatureToGa4ghFeature(final Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter, final Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter) {
-        return new BdgenomicsFeatureToGa4ghFeature(featureTypeConverter, strandConverter);
+    Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> createMapToGa4ghAttributes() {
+        return new MapToGa4ghAttributes();
+    }
+
+    @Provides @Singleton
+    Converter<ga4gh.Common.Attributes, java.util.Map<String, String>> createGa4ghAttributesToMap() {
+        return new Ga4ghAttributesToMap();
+    }
+
+    @Provides @Singleton
+    Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> createBdgenomicsFeatureToGa4ghFeature(final Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter,
+                                                                                                                            final Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter,
+                                                                                                                            final Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> attributeConverter) {
+        return new BdgenomicsFeatureToGa4ghFeature(featureTypeConverter, strandConverter, attributeConverter);
     }
 
     @Provides @Singleton
