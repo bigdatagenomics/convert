@@ -1,5 +1,19 @@
 # convert Changelog #
 
+### Version 0.5.0 ###
+
+**Closed issues:**
+
+ - Unit tests fail due to surefire plugin issue with Debian/Ubuntu Java8 [\#59](https://github.com/bigdatagenomics/convert/issues/59)
+
+**Merged and closed pull requests:**
+
+ - Adding CHANGES.md [\#64](https://github.com/bigdatagenomics/convert/pull/64) ([heuermh](https://github.com/heuermh))
+ - added GA4GH Feature attributes parser [\#61](https://github.com/bigdatagenomics/convert/pull/61) ([akmorrow13](https://github.com/akmorrow13))
+ - Update maven-surefire-plugin version to 3.0.0-M1. [\#60](https://github.com/bigdatagenomics/convert/pull/60) ([heuermh](https://github.com/heuermh))
+ - Update bdg-formats dependency version to 0.11.4. [\#58](https://github.com/bigdatagenomics/convert/pull/58) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.4.0 ###
 
 **Closed issues:**
