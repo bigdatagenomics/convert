@@ -79,18 +79,18 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
             .setFragmentName(alignmentRecord.getReadName())
             .setImproperPlacement(!alignmentRecord.getProperPair())
             .setNumberReads(alignmentRecord.getReadPaired() ? 2 : 1)
-            .setReadGroupId(isNotEmpty(alignmentRecord.getRecordGroupName()) ? alignmentRecord.getRecordGroupName() : "1")
+            .setReadGroupId(isNotEmpty(alignmentRecord.getReadGroupId()) ? alignmentRecord.getReadGroupId() : "1")
             .setReadNumber(alignmentRecord.getReadInFragment())
             .setSecondaryAlignment(alignmentRecord.getSecondaryAlignment())
             .setSupplementaryAlignment(alignmentRecord.getSupplementaryAlignment());
 
-        if (alignmentRecord.getInferredInsertSize() != null) {
-            builder.setFragmentLength(alignmentRecord.getInferredInsertSize().intValue());
+        if (alignmentRecord.getInsertSize() != null) {
+            builder.setFragmentLength(alignmentRecord.getInsertSize().intValue());
         }
 
-        if (alignmentRecord.getMateContigName() != null) {
+        if (alignmentRecord.getMateReferenceName() != null) {
             Position matePosition = Position.newBuilder()
-                .setReferenceName(alignmentRecord.getMateContigName())
+                .setReferenceName(alignmentRecord.getMateReferenceName())
                 .setPosition(alignmentRecord.getMateAlignmentStart())
                 .setStrand(alignmentRecord.getMateNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
                 .build();
@@ -98,9 +98,9 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
             builder.setNextMatePosition(matePosition);
         }
 
-        if (isNotEmpty(alignmentRecord.getQual())) {
-            List<Integer> alignedQuality = new ArrayList<Integer>(alignmentRecord.getQual().length());
-            for (char c : alignmentRecord.getQual().toCharArray()) {
+        if (isNotEmpty(alignmentRecord.getQuality())) {
+            List<Integer> alignedQuality = new ArrayList<Integer>(alignmentRecord.getQuality().length());
+            for (char c : alignmentRecord.getQuality().toCharArray()) {
                 alignedQuality.add(((int) c) - 33);
             }
             builder.addAllAlignedQuality(alignedQuality);
@@ -108,7 +108,7 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
 
         if (alignmentRecord.getReadMapped()) {
             Position position = Position.newBuilder()
-                .setReferenceName(alignmentRecord.getContigName())
+                .setReferenceName(alignmentRecord.getReferenceName())
                 .setPosition(alignmentRecord.getStart())
                 .setStrand(alignmentRecord.getReadNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
                 .build();
@@ -116,8 +116,8 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
             LinearAlignment.Builder alignmentBuilder = LinearAlignment.newBuilder()
                 .setPosition(position);
 
-            if (alignmentRecord.getMapq() != null)
-              alignmentBuilder.setMappingQuality(alignmentRecord.getMapq());
+            if (alignmentRecord.getMappingQuality() != null)
+              alignmentBuilder.setMappingQuality(alignmentRecord.getMappingQuality());
 
             Cigar cigar = null;
             try {

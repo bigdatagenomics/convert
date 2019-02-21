@@ -54,8 +54,8 @@ public class BdgenomicsVariantToGa4ghVariant extends AbstractConverter<org.bdgen
         if (variant.getNames() != null && !variant.getNames().isEmpty()) {
             builder.addAllNames(variant.getNames());
         }
-        if (variant.getContigName() != null) {
-            builder.setReferenceName(variant.getContigName());
+        if (variant.getReferenceName() != null) {
+            builder.setReferenceName(variant.getReferenceName());
         }
         if (variant.getStart() != null) {
             builder.setStart(variant.getStart());

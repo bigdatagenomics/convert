@@ -21,7 +21,6 @@ import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 import org.bdgenomics.formats.avro.Read;
 import org.bdgenomics.formats.avro.Slice;
 
@@ -55,7 +54,6 @@ final class SliceToRead extends AbstractConverter<Slice, Read> {
             .setSequence(slice.getSequence())
             .setLength(slice.getLength())
             .setQualityScores(unknownQualityScores(slice.getLength() == null ? 0 : slice.getLength().intValue()))
-            .setQualityScoreVariant(QualityScoreVariant.FASTQ_SANGER)
             .setAttributes(slice.getAttributes())
             .build();
     }

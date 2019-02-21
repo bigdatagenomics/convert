@@ -24,53 +24,49 @@ import javax.annotation.concurrent.Immutable;
 
 import ga4gh.Common.Program;
 
-import ga4gh.Reads.ReadGroup;
-
 import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.ProcessingStep;
-import org.bdgenomics.formats.avro.RecordGroup;
 
 import org.slf4j.Logger;
 
 /**
- * Convert GA4GH ReadGroup to bdg-formats RecordGroup.
+ * Convert GA4GH ReadGroup to bdg-formats ReadGroup.
  */
 @Immutable
-final class ReadGroupToRecordGroup extends AbstractConverter<ReadGroup, RecordGroup> {
+final class Ga4ghReadGroupToBdgenomicsReadGroup extends AbstractConverter<ga4gh.Reads.ReadGroup, org.bdgenomics.formats.avro.ReadGroup> {
     /** Convert GA4GH Program to bdg-formats ProcessingStep. */
     private final Converter<Program, ProcessingStep> programConverter;
 
     /**
-     * Convert GA4GH ReadGroup to bdg-formats RecordGroup.
+     * Convert GA4GH ReadGroup to bdg-formats ReadGroup.
      *
      * @param programConverter GA4GH Program to bdg-formats ProcessingGroup converter,
      *    must not be null
      */
-    ReadGroupToRecordGroup(final Converter<Program, ProcessingStep> programConverter) {
-        super(ReadGroup.class, RecordGroup.class);
+    Ga4ghReadGroupToBdgenomicsReadGroup(final Converter<Program, ProcessingStep> programConverter) {
+        super(ga4gh.Reads.ReadGroup.class, org.bdgenomics.formats.avro.ReadGroup.class);
         checkNotNull(programConverter);
         this.programConverter = programConverter;
     }
 
 
     @Override
-    public RecordGroup convert(final ReadGroup readGroup,
-                               final ConversionStringency stringency,
-                               final Logger logger) throws ConversionException {
+    public org.bdgenomics.formats.avro.ReadGroup convert(final ga4gh.Reads.ReadGroup readGroup,
+                                                         final ConversionStringency stringency,
+                                                         final Logger logger) throws ConversionException {
 
         if (readGroup == null) {
             warnOrThrow(readGroup, "must not be null", null, stringency, logger);
             return null;
         }
 
-        RecordGroup.Builder builder = RecordGroup.newBuilder()
-            // note ga4gh can have both id and name set, bdg-formats only name
-            .setName(readGroup.getName())
-            .setSample(readGroup.getSampleName())
+        org.bdgenomics.formats.avro.ReadGroup.Builder builder = org.bdgenomics.formats.avro.ReadGroup.newBuilder()
+            .setId(readGroup.getId())
+            .setSampleId(readGroup.getSampleName())
             .setDescription(readGroup.getDescription())
             .setPredictedMedianInsertSize(readGroup.getPredictedInsertSize());
 

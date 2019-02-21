@@ -103,7 +103,7 @@ public final class BdgenomicsFeatureToGa4ghFeatureTest {
             .build();
 
         org.bdgenomics.formats.avro.Feature feature = org.bdgenomics.formats.avro.Feature.newBuilder()
-            .setContigName("1")
+            .setReferenceName("1")
             .setStart(0L)
             .setEnd(42L)
             .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
@@ -143,7 +143,7 @@ public final class BdgenomicsFeatureToGa4ghFeatureTest {
             .build();
 
         org.bdgenomics.formats.avro.Feature feature = org.bdgenomics.formats.avro.Feature.newBuilder()
-            .setContigName("1")
+            .setReferenceName("1")
             .setStart(0L)
             .setEnd(42L)
             .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
