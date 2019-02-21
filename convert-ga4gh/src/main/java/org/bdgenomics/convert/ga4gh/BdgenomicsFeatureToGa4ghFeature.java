@@ -17,6 +17,8 @@
  */
 package org.bdgenomics.convert.ga4gh;
 
+import java.util.Map;
+
 import javax.annotation.concurrent.Immutable;
 
 import org.bdgenomics.convert.AbstractConverter;
@@ -35,8 +37,8 @@ final class BdgenomicsFeatureToGa4ghFeature extends AbstractConverter<org.bdgeno
     private final Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter;
     /** Convert bdg-formats Strand to GA4GH Strand. */
     private final Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter;
-
-    private final Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> attributeConverter;
+    /** Convert map of attributes to GA4GH Attributes. */
+    private final Converter<Map<String, String>, ga4gh.Common.Attributes> attributeConverter;
 
     /**
      * Convert bdg-formats Feature to GA4GH Feature.
@@ -46,7 +48,7 @@ final class BdgenomicsFeatureToGa4ghFeature extends AbstractConverter<org.bdgeno
      */
     BdgenomicsFeatureToGa4ghFeature(final Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter,
                                     final Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter,
-                                    final Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> attributeConverter) {
+                                    final Converter<Map<String, String>, ga4gh.Common.Attributes> attributeConverter) {
         super(org.bdgenomics.formats.avro.Feature.class, ga4gh.SequenceAnnotations.Feature.class);
         checkNotNull(featureTypeConverter);
         checkNotNull(strandConverter);

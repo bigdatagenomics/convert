@@ -21,7 +21,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import ga4gh.Common;
+
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
@@ -32,16 +37,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 /**
  * Unit test for Ga4ghAttributesToMap.
  */
 public final class Ga4ghAttributesToMapTest {
     private final Logger logger = LoggerFactory.getLogger(Ga4ghAttributesToMapTest.class);
-    private Converter<ga4gh.Common.Attributes, java.util.Map<String, String>> attributesConverter;
+    private Converter<ga4gh.Common.Attributes, Map<String, String>> attributesConverter;
 
     @Before
     public void setUp() {
@@ -77,7 +78,6 @@ public final class Ga4ghAttributesToMapTest {
         expected.put("blockSizes", "10,100,2,4,");
 
         Map<String, Common.AttributeValueList> map = new HashMap<String, Common.AttributeValueList>();
-
         Iterator<Map.Entry<String, String>> entries = expected.entrySet().iterator();
 
         while (entries.hasNext()) {
@@ -87,11 +87,8 @@ public final class Ga4ghAttributesToMapTest {
                     .addValues(Common.AttributeValue.newBuilder().setStringValue(entry.getValue())).build();
 
             map.put(entry.getKey(), attributeValue);
-
         }
-
         Common.Attributes attributes = ga4gh.Common.Attributes.newBuilder().putAllAttr(map).build();
-
         assertEquals(expected, attributesConverter.convert(attributes, ConversionStringency.STRICT, logger));
     }
 }

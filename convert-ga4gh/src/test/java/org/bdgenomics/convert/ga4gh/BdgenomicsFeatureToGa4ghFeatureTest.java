@@ -21,7 +21,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import ga4gh.Common;
+
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
@@ -32,10 +37,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 /**
  * Unit test for BdgenomicsFeatureToGa4ghFeature.
  */
@@ -44,7 +45,7 @@ public final class BdgenomicsFeatureToGa4ghFeatureTest {
     private Converter<String, ga4gh.Common.OntologyTerm> featureTypeConverter;
     private Converter<org.bdgenomics.formats.avro.Strand, ga4gh.Common.Strand> strandConverter;
     private Converter<org.bdgenomics.formats.avro.Feature, ga4gh.SequenceAnnotations.Feature> featureConverter;
-    private Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> attributeConverter;
+    private Converter<Map<String, String>, ga4gh.Common.Attributes> attributeConverter;
 
     @Before
     public void setUp() {
@@ -91,23 +92,23 @@ public final class BdgenomicsFeatureToGa4ghFeatureTest {
     }
 
     @Test
-         public void testConvert() {
+    public void testConvert() {
         ga4gh.SequenceAnnotations.Feature expected = ga4gh.SequenceAnnotations.Feature.newBuilder()
-                .setReferenceName("1")
-                .setStart(0L)
-                .setEnd(42L)
-                .setStrand(ga4gh.Common.Strand.POS_STRAND)
-                .setFeatureType(ga4gh.Common.OntologyTerm.newBuilder().setTermId("exon").build())
-                .setAttributes(ga4gh.Common.Attributes.newBuilder().build())
-                .build();
+            .setReferenceName("1")
+            .setStart(0L)
+            .setEnd(42L)
+            .setStrand(ga4gh.Common.Strand.POS_STRAND)
+            .setFeatureType(ga4gh.Common.OntologyTerm.newBuilder().setTermId("exon").build())
+            .setAttributes(ga4gh.Common.Attributes.newBuilder().build())
+            .build();
 
         org.bdgenomics.formats.avro.Feature feature = org.bdgenomics.formats.avro.Feature.newBuilder()
-                .setContigName("1")
-                .setStart(0L)
-                .setEnd(42L)
-                .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
-                .setFeatureType("exon")
-                .build();
+            .setContigName("1")
+            .setStart(0L)
+            .setEnd(42L)
+            .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
+            .setFeatureType("exon")
+            .build();
 
         assertEquals(expected, featureConverter.convert(feature, ConversionStringency.STRICT, logger));
     }
@@ -131,27 +132,26 @@ public final class BdgenomicsFeatureToGa4ghFeatureTest {
         }
 
         ga4gh.SequenceAnnotations.Feature expected = ga4gh.SequenceAnnotations.Feature.newBuilder()
-                .setReferenceName("1")
-                .setStart(0L)
-                .setEnd(42L)
-                .setStrand(ga4gh.Common.Strand.POS_STRAND)
-                .setId("exon_123")
-                .setGeneSymbol("GENE_SYMBOL")
-                .setFeatureType(ga4gh.Common.OntologyTerm.newBuilder().setTermId("exon").build())
-                .setAttributes(Common.Attributes.newBuilder().putAllAttr(ga4ghAttributes).build())
-                .build();
-
+            .setReferenceName("1")
+            .setStart(0L)
+            .setEnd(42L)
+            .setStrand(ga4gh.Common.Strand.POS_STRAND)
+            .setId("exon_123")
+            .setGeneSymbol("GENE_SYMBOL")
+            .setFeatureType(ga4gh.Common.OntologyTerm.newBuilder().setTermId("exon").build())
+            .setAttributes(Common.Attributes.newBuilder().putAllAttr(ga4ghAttributes).build())
+            .build();
 
         org.bdgenomics.formats.avro.Feature feature = org.bdgenomics.formats.avro.Feature.newBuilder()
-                .setContigName("1")
-                .setStart(0L)
-                .setEnd(42L)
-                .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
-                .setFeatureType("exon")
-                .setFeatureId("exon_123")
-                .setGeneId("GENE_SYMBOL")
-                .setAttributes(mapAttributes)
-                .build();
+            .setContigName("1")
+            .setStart(0L)
+            .setEnd(42L)
+            .setStrand(org.bdgenomics.formats.avro.Strand.FORWARD)
+            .setFeatureType("exon")
+            .setFeatureId("exon_123")
+            .setGeneId("GENE_SYMBOL")
+            .setAttributes(mapAttributes)
+            .build();
 
         assertEquals(expected, featureConverter.convert(feature, ConversionStringency.STRICT, logger));
     }
