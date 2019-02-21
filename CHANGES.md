@@ -1,5 +1,20 @@
 # convert Changelog #
 
+### Version 0.6.0 ###
+
+**Closed issues:**
+
+ - Configure Travis for continuous integration [\#66](https://github.com/bigdatagenomics/convert/issues/66)
+ - Bump bdg-formats dependency to version 0.12.0 [\#62](https://github.com/bigdatagenomics/convert/issues/62)
+
+**Merged and closed pull requests:**
+
+ - Update bdg-formats dependency to version 0.12.0. [\#69](https://github.com/bigdatagenomics/convert/pull/69) ([heuermh](https://github.com/heuermh))
+ - Adding Travis CI badge to readme. [\#68](https://github.com/bigdatagenomics/convert/pull/68) ([heuermh](https://github.com/heuermh))
+ - Adding Travis CI configuration. [\#67](https://github.com/bigdatagenomics/convert/pull/67) ([heuermh](https://github.com/heuermh))
+ - Additional code style fixes. [\#65](https://github.com/bigdatagenomics/convert/pull/65) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.5.0 ###
 
 **Closed issues:**
