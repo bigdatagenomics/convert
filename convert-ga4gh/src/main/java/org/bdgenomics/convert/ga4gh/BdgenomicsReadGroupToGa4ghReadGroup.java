@@ -41,7 +41,7 @@ final class BdgenomicsReadGroupToGa4ghReadGroup extends AbstractConverter<org.bd
     private final Converter<ProcessingStep, Program> processingStepConverter;
 
     /**
-     * Convert bdg-formats ReaGroup to GA4GH ReadGroup.
+     * Convert bdg-formats ReadGroup to GA4GH ReadGroup.
      *
      * @param processingStepConverter bdg-formats ProcessingStep to GA4GH Program
      *    converter, must not be null
