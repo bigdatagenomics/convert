@@ -18,6 +18,7 @@
 package org.bdgenomics.convert.ga4gh;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -108,12 +109,12 @@ public final class Ga4ghModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<java.util.Map<String, String>, ga4gh.Common.Attributes> createMapToGa4ghAttributes() {
+    Converter<Map<String, String>, ga4gh.Common.Attributes> createMapToGa4ghAttributes() {
         return new MapToGa4ghAttributes();
     }
 
     @Provides @Singleton
-    Converter<ga4gh.Common.Attributes, java.util.Map<String, String>> createGa4ghAttributesToMap() {
+    Converter<ga4gh.Common.Attributes, Map<String, String>> createGa4ghAttributesToMap() {
         return new Ga4ghAttributesToMap();
     }
 

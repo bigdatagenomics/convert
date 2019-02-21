@@ -17,36 +17,38 @@
  */
 package org.bdgenomics.convert.ga4gh;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.annotation.concurrent.Immutable;
 
-import com.google.protobuf.Descriptors;
 import ga4gh.Common;
+
 import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.slf4j.Logger;
 
-import java.util.*;
-
 /**
  * Convert map of attributes to GA4GH attributes.
  */
 @Immutable
-final class MapToGa4ghAttributes extends AbstractConverter<java.util.Map<String, String>, ga4gh.Common.Attributes> {
+final class MapToGa4ghAttributes extends AbstractConverter<Map<String, String>, ga4gh.Common.Attributes> {
 
     /**
      * Convert bdg-formats Strand to GA4GH Strand.
      */
     MapToGa4ghAttributes() {
-        super(java.util.Map.class, ga4gh.Common.Attributes.class);
+        super(Map.class, ga4gh.Common.Attributes.class);
     }
 
 
     @Override
-    public ga4gh.Common.Attributes convert(final java.util.Map<String, String> attributes,
-                                       final ConversionStringency stringency,
-                                       final Logger logger) throws ConversionException {
+    public ga4gh.Common.Attributes convert(final Map<String, String> attributes,
+                                           final ConversionStringency stringency,
+                                           final Logger logger) throws ConversionException {
 
         if (attributes == null) {
             warnOrThrow(attributes, "must not be null", null, stringency, logger);
@@ -63,9 +65,7 @@ final class MapToGa4ghAttributes extends AbstractConverter<java.util.Map<String,
                     .addValues(Common.AttributeValue.newBuilder().setStringValue(entry.getValue())).build();
 
             map.put(entry.getKey(), attributeValue);
-
         }
-
         return ga4gh.Common.Attributes.newBuilder().putAllAttr(map).build();
     }
 }
