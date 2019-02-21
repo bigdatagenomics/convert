@@ -26,7 +26,6 @@ import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Alphabet;
-import org.bdgenomics.formats.avro.QualityScoreVariant;
 import org.bdgenomics.formats.avro.Read;
 import org.bdgenomics.formats.avro.Slice;
 import org.bdgenomics.formats.avro.Strand;
@@ -89,7 +88,6 @@ public final class ReadToSliceTest {
             .setSequence("actg")
             .setLength(4L)
             .setQualityScores("BBBB")
-            .setQualityScoreVariant(QualityScoreVariant.FASTQ_SANGER)
             .build();
 
         assertEquals(slice, readToSliceConverter.convert(read, ConversionStringency.STRICT, logger));

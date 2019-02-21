@@ -82,8 +82,8 @@ final class BdgenomicsFeatureToGa4ghFeature extends AbstractConverter<org.bdgeno
         if (feature.getStrand() != null) {
            builder.setStrand(strandConverter.convert(feature.getStrand(), stringency, logger));
         }
-        if (feature.getContigName() != null) {
-           builder.setReferenceName(feature.getContigName());
+        if (feature.getReferenceName() != null) {
+           builder.setReferenceName(feature.getReferenceName());
         }
         if (feature.getFeatureId() != null) {
             builder.setId(feature.getFeatureId());

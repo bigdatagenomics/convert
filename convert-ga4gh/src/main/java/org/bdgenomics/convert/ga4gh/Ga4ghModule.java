@@ -27,7 +27,6 @@ import ga4gh.Common.Program;
 import ga4gh.Reads.CigarUnit;
 import ga4gh.Reads.CigarUnit.Operation;
 import ga4gh.Reads.ReadAlignment;
-import ga4gh.Reads.ReadGroup;
 
 import htsjdk.samtools.Cigar;
 import htsjdk.samtools.CigarOperator;
@@ -41,7 +40,6 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.formats.avro.AlignmentRecord;
 import org.bdgenomics.formats.avro.GenotypeAllele;
 import org.bdgenomics.formats.avro.ProcessingStep;
-import org.bdgenomics.formats.avro.RecordGroup;
 
 /**
  * Guice module for the org.bdgenomics.convert.ga4gh package.
@@ -136,12 +134,12 @@ public final class Ga4ghModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<ReadGroup, RecordGroup> createReadGroupToRecordGroup(final Converter<Program, ProcessingStep> programConverter) {
-        return new ReadGroupToRecordGroup(programConverter);
+    Converter<ga4gh.Reads.ReadGroup, org.bdgenomics.formats.avro.ReadGroup> createGa4ghReadGroupToBdgenomicsReadGroup(final Converter<Program, ProcessingStep> programConverter) {
+        return new Ga4ghReadGroupToBdgenomicsReadGroup(programConverter);
     }
 
     @Provides @Singleton
-    Converter<RecordGroup, ReadGroup> createRecordGroupToReadGroup(final Converter<ProcessingStep, Program> processingStepConverter) {
-        return new RecordGroupToReadGroup(processingStepConverter);
+    Converter<org.bdgenomics.formats.avro.ReadGroup, ga4gh.Reads.ReadGroup> createBdgenomicsReadGroupToGa4ghReadGroup(final Converter<ProcessingStep, Program> processingStepConverter) {
+        return new BdgenomicsReadGroupToGa4ghReadGroup(processingStepConverter);
     }
 }

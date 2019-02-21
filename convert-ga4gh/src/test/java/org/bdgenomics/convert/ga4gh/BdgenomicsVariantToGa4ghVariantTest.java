@@ -48,7 +48,7 @@ public final class BdgenomicsVariantToGa4ghVariantTest {
 
         bdgVariant = org.bdgenomics.formats.avro.Variant.newBuilder()
                 .setNames(Arrays.asList("rs123"))
-                .setContigName("1")
+                .setReferenceName("1")
                 .setStart(19190L)
                 .setEnd(19191L)
                 .setReferenceAllele("G")

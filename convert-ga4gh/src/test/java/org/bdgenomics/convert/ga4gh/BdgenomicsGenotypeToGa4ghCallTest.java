@@ -52,7 +52,7 @@ public final class BdgenomicsGenotypeToGa4ghCallTest {
 
         genotype = org.bdgenomics.formats.avro.Genotype.newBuilder()
                 .setAlleles(Arrays.asList(GenotypeAllele.REF, GenotypeAllele.ALT))
-                .setContigName("1")
+                .setReferenceName("1")
                 .setStart(14522L)
                 .setEnd(14522L)
                 .setPhased(false)

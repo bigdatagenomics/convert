@@ -24,14 +24,11 @@ import static org.junit.Assert.assertNotNull;
 
 import ga4gh.Common.Program;
 
-import ga4gh.Reads.ReadGroup;
-
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.ProcessingStep;
-import org.bdgenomics.formats.avro.RecordGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,17 +37,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for ReadGroupToRecordGroup.
+ * Unit test for Ga4ghReadGroupToBdgenomicsReadGroup.
  */
-public final class ReadGroupToRecordGroupTest {
-    private final Logger logger = LoggerFactory.getLogger(ReadGroupToRecordGroupTest.class);
+public final class Ga4ghReadGroupToBdgenomicsReadGroupTest {
+    private final Logger logger = LoggerFactory.getLogger(Ga4ghReadGroupToBdgenomicsReadGroupTest.class);
     private Converter<Program, ProcessingStep> programConverter;
-    private Converter<ReadGroup, RecordGroup> readGroupConverter;
+    private Converter<ga4gh.Reads.ReadGroup, org.bdgenomics.formats.avro.ReadGroup> readGroupConverter;
 
     @Before
     public void setUp() {
         programConverter = new ProgramToProcessingStep();
-        readGroupConverter = new ReadGroupToRecordGroup(programConverter);
+        readGroupConverter = new Ga4ghReadGroupToBdgenomicsReadGroup(programConverter);
     }
 
     @Test
@@ -60,7 +57,7 @@ public final class ReadGroupToRecordGroupTest {
 
     @Test(expected=NullPointerException.class)
     public void testConstructorNullProgramConverter() {
-        new ReadGroupToRecordGroup(null);
+        new Ga4ghReadGroupToBdgenomicsReadGroup(null);
     }
 
     @Test(expected=ConversionException.class)
@@ -88,7 +85,8 @@ public final class ReadGroupToRecordGroupTest {
             .setVersion("version")
             .build();
 
-        ReadGroup readGroup = ReadGroup.newBuilder()
+        ga4gh.Reads.ReadGroup ga4ghReadGroup = ga4gh.Reads.ReadGroup.newBuilder()
+            .setId("readGroupId")
             .setName("readGroupName")
             .setSampleName("readGroupSample")
             .setDescription("readGroupDescription")
@@ -96,15 +94,15 @@ public final class ReadGroupToRecordGroupTest {
             .addPrograms(program)
             .build();
 
-        RecordGroup recordGroup = readGroupConverter.convert(readGroup, ConversionStringency.STRICT, logger);
-        assertNotNull(recordGroup);
-        assertEquals(recordGroup.getName(), readGroup.getName());
-        assertEquals(recordGroup.getSample(), readGroup.getSampleName());
-        assertEquals(recordGroup.getDescription(), readGroup.getDescription());
-        assertEquals(recordGroup.getPredictedMedianInsertSize().intValue(), readGroup.getPredictedInsertSize());
-        assertFalse(recordGroup.getProcessingSteps().isEmpty());
+        org.bdgenomics.formats.avro.ReadGroup bdgenomicsReadGroup = readGroupConverter.convert(ga4ghReadGroup, ConversionStringency.STRICT, logger);
+        assertNotNull(bdgenomicsReadGroup);
+        assertEquals(bdgenomicsReadGroup.getId(), ga4ghReadGroup.getId());
+        assertEquals(bdgenomicsReadGroup.getSampleId(), ga4ghReadGroup.getSampleName());
+        assertEquals(bdgenomicsReadGroup.getDescription(), ga4ghReadGroup.getDescription());
+        assertEquals(bdgenomicsReadGroup.getPredictedMedianInsertSize().intValue(), ga4ghReadGroup.getPredictedInsertSize());
+        assertFalse(bdgenomicsReadGroup.getProcessingSteps().isEmpty());
 
-        ProcessingStep processingStep = recordGroup.getProcessingSteps().get(0);
+        ProcessingStep processingStep = bdgenomicsReadGroup.getProcessingSteps().get(0);
         assertNotNull(processingStep);
         assertEquals(processingStep.getId(), program.getId());
         assertEquals(processingStep.getProgramName(), program.getName());
