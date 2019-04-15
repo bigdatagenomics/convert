@@ -18,7 +18,11 @@ To build
 
 ### About convert
 
-The [`Converter`](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/Converter.java) interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/) (sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a [conversion stringency](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/ConversionStringency.java) and [SLF4J logger](http://www.slf4j.org/) given as context.
+The [`Converter`](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/Converter.java)
+interface, inspired by Apache [Commons Convert](https://commons.apache.org/sandbox/commons-convert/)
+(sandbox component, never released), provides for converting from a source type `S` to a target type `T`, with a
+[conversion stringency](https://github.com/bigdatagenomics/convert/blob/master/convert/src/main/java/org/bdgenomics/convert/ConversionStringency.java)
+and [SLF4J logger](http://www.slf4j.org/) given as context.
 
 ```java
 public interface Converter<S, T> {
@@ -48,4 +52,26 @@ final class MyClass {
 }
 ```
 
-The Guice injector handles construction of the converter instances, managing nested converter dependencies as necessary (if say, a `SAMRecord` to `AlignmentRecord` converter depends on a `String` to `Strand` converter).
+The Guice injector handles construction of the converter instances, managing nested converter dependencies
+as necessary (if say, a `Gff3Record` to `Feature` converter depends on a `String` to `Strand` converter).
+
+Some converters may require late bindings; for those a converter factory is available via injection:
+```java
+final class MyClass {
+  private final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory;
+  private final ConversionStringency stringency = ConversionStringency.STRICT;
+  private static final logger = LoggerFactory.getLogger(MyClass.class);
+
+  @Inject
+  MyClass(final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory) {
+    this.alignmentRecordToSamRecordFactory = alignmentRecordToSamRecordFactory;
+  }
+
+  void doIt() {
+    AlignmentRecord alignmentRecord = ...;
+    SAMFileHeader header = ...;
+    Converter<AlignmentRecord, SAMRecord> converter = alignmentRecordToSamRecordFactory.create(header);
+    SAMRecord record = converter.convert(alignmentRecord, stringency, logger);
+  }
+}
+```

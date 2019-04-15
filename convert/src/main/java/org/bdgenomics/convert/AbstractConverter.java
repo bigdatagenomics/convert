@@ -64,9 +64,20 @@ public abstract class AbstractConverter<S, T> implements Converter<S, T>, Serial
     }
 
     /**
+     * Check the specified value is not null.
+     *
+     * @param value value, must not be null
+     */
+    protected final void checkNotNull(final Object value) {
+        if (value == null) {
+            throw new NullPointerException("value must not be null");
+        }
+    }
+
+    /**
      * Check the specified converter is not null.
      *
-     * @param converter converter, must not b null
+     * @param converter converter, must not be null
      * @throws NullPointerException if converter is null
      */
     protected final void checkNotNull(final Converter<?, ?> converter) {

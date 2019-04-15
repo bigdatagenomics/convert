@@ -113,8 +113,8 @@
               <configuration>
                 <rules>
                   <requireMavenVersion>
-                    <version>[3.1.1,)</version>
-                    <message>convert requires Maven 3.1.1 or greater</message>
+                    <version>[3.3.9,)</version>
+                    <message>convert requires Maven 3.3.9 or greater</message>
                   </requireMavenVersion>
                   <requireJavaVersion>
                     <version>[1.8,)</version>
@@ -169,6 +169,11 @@
       <dependency>
         <groupId>com.google.inject</groupId>
         <artifactId>guice</artifactId>
+        <version>${guice.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.inject.extensions</groupId>
+        <artifactId>guice-assistedinject</artifactId>
         <version>${guice.version}</version>
       </dependency>
       <dependency>
