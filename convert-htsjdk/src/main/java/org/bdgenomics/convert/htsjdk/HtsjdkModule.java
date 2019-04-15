@@ -17,14 +17,37 @@
  */
 package org.bdgenomics.convert.htsjdk;
 
+import java.util.List;
+
+import htsjdk.samtools.SAMFileHeader;
+import htsjdk.samtools.SAMProgramRecord;
+import htsjdk.samtools.SAMReadGroupRecord;
+import htsjdk.samtools.SAMRecord;
+import htsjdk.samtools.SAMSequenceRecord;
 import htsjdk.samtools.ValidationStringency;
+
+import htsjdk.variant.variantcontext.VariantContext;
+
+import htsjdk.variant.vcf.VCFHeader;
+import htsjdk.variant.vcf.VCFHeaderLine;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
+
+import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Genotype;
+import org.bdgenomics.formats.avro.ProcessingStep;
+import org.bdgenomics.formats.avro.ReadGroup;
+import org.bdgenomics.formats.avro.Reference;
+import org.bdgenomics.formats.avro.Sample;
+import org.bdgenomics.formats.avro.Variant;
 
 /**
  * Guice module for the org.bdgenomics.convert.htsjdk package.
@@ -32,7 +55,25 @@ import org.bdgenomics.convert.ConversionStringency;
 public final class HtsjdkModule extends AbstractModule {
     @Override
     protected void configure() {
-        // empty
+        install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Converter<AlignmentRecord, SAMRecord>>() {}, AlignmentRecordToSamRecord.class)
+            .build(AlignmentRecordToSamRecordFactory.class));
+
+        install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Converter<List<Genotype>, VariantContext>>() {}, GenotypesToVariantContext.class)
+            .build(GenotypesToVariantContextFactory.class));
+
+        install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Converter<Variant, VariantContext>>() {}, VariantToVariantContext.class)
+            .build(VariantToVariantContextFactory.class));
+
+        install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Converter<VariantContext, List<Genotype>>>() {}, VariantContextToGenotypes.class)
+            .build(VariantContextToGenotypesFactory.class));
+
+        install(new FactoryModuleBuilder()
+            .implement(new TypeLiteral<Converter<VariantContext, List<Variant>>>() {}, VariantContextToVariants.class)
+            .build(VariantContextToVariantsFactory.class));
     }
 
     @Provides @Singleton
@@ -43,5 +84,55 @@ public final class HtsjdkModule extends AbstractModule {
     @Provides @Singleton
     Converter<ValidationStringency, ConversionStringency> createValidationStringencyToConversionStringency() {
         return new ValidationStringencyToConversionStringency();
+    }
+
+    @Provides @Singleton
+    Converter<SAMRecord, AlignmentRecord> createSamRecordToAlignmentRecord() {
+        return new SamRecordToAlignmentRecord();
+    }
+
+    @Provides @Singleton
+    Converter<SAMSequenceRecord, Reference> createSamSequenceRecordToReference() {
+        return new SamSequenceRecordToReference();
+    }
+
+    @Provides @Singleton
+    Converter<SAMFileHeader, List<Reference>> createSamHeaderToReferences(final Converter<SAMSequenceRecord, Reference> referenceConverter) {
+        return new SamHeaderToReferences(referenceConverter);
+    }
+
+    @Provides @Singleton
+    Converter<SAMReadGroupRecord, ReadGroup> createSamReadGroupRecordToReadGroups() {
+        return new SamReadGroupRecordToReadGroup();
+    }
+
+    @Provides @Singleton
+    Converter<SAMFileHeader, List<ReadGroup>> createSamHeaderToReadGroups(final Converter<SAMReadGroupRecord, ReadGroup> readGroupConverter) {
+        return new SamHeaderToReadGroups(readGroupConverter);
+    }
+
+    @Provides @Singleton
+    Converter<SAMProgramRecord, ProcessingStep> createSamProgramRecordToProcessingStep() {
+        return new SamProgramRecordToProcessingStep();
+    }
+
+    @Provides @Singleton
+    Converter<SAMFileHeader, List<ProcessingStep>> createSamHeaderToProcessingSteps(final Converter<SAMProgramRecord, ProcessingStep> processingStepConverter) {
+        return new SamHeaderToProcessingSteps(processingStepConverter);
+    }
+
+    @Provides @Singleton
+    Converter<VCFHeader, List<Reference>> createVcfHeaderToReferences(final Converter<SAMSequenceRecord, Reference> referenceConverter) {
+        return new VcfHeaderToReferences(referenceConverter);
+    }
+
+    @Provides @Singleton
+    Converter<VCFHeader, List<Sample>> createVcfHeaderToSamples() {
+        return new VcfHeaderToSamples();
+    }
+
+    @Provides @Singleton
+    Converter<VCFHeader, List<VCFHeaderLine>> createVcfHeaderToVcfHeaderLines() {
+        return new VcfHeaderToVcfHeaderLines();
     }
 }

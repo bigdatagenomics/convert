@@ -33,6 +33,11 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-assistedinject</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>org.bdgenomics.convert</groupId>
       <artifactId>convert</artifactId>
       <scope>compile</scope>
