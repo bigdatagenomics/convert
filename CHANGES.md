@@ -1,5 +1,16 @@
 # convert Changelog #
 
+### Version 0.8.0 ###
+
+**Closed issues:**
+
+ - Bump bdg-formats dependency version to 0.14.0 [\#74](https://github.com/bigdatagenomics/convert/issues/74)
+
+**Merged and closed pull requests:**
+
+ - [CONVERT-74] Bump bdg-formats dependency version to 0.14.0 [\#75](https://github.com/bigdatagenomics/convert/pull/75) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.6.0 ###
 
 **Closed issues:**
