@@ -98,9 +98,9 @@ final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRe
             builder.setNextMatePosition(matePosition);
         }
 
-        if (isNotEmpty(alignmentRecord.getQuality())) {
-            List<Integer> alignedQuality = new ArrayList<Integer>(alignmentRecord.getQuality().length());
-            for (char c : alignmentRecord.getQuality().toCharArray()) {
+        if (isNotEmpty(alignmentRecord.getQualityScores())) {
+            List<Integer> alignedQuality = new ArrayList<Integer>(alignmentRecord.getQualityScores().length());
+            for (char c : alignmentRecord.getQualityScores().toCharArray()) {
                 alignedQuality.add(((int) c) - 33);
             }
             builder.addAllAlignedQuality(alignedQuality);
