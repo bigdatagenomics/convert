@@ -18,12 +18,12 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <bdg-formats.version>0.14.0</bdg-formats.version>
+    <bdg-formats.version>0.15.0-SNAPSHOT</bdg-formats.version>
     <commons-lang3.version>3.8.1</commons-lang3.version>
     <ga4gh.version>0.6.0a10</ga4gh.version>
     <guava.version>27.0-jre</guava.version>
     <guice.version>4.2.1</guice.version>
-    <htsjdk.version>2.18.2</htsjdk.version>
+    <htsjdk.version>2.19.0</htsjdk.version>
     <jsr305.version>3.0.2</jsr305.version>
     <junit.version>4.12</junit.version>
     <protobuf.version>3.0.0-beta-3</protobuf.version>
@@ -64,7 +64,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.1</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -98,12 +98,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <version>3.0.0-M1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.4.1</version>
+          <version>3.0.0-M2</version>
           <executions>
             <execution>
               <id>enforce-versions</id>
@@ -128,22 +128,27 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>3.0.0-M1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
           <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.0.0-M3</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -242,11 +247,11 @@
           </plugin>
           <plugin>
             <artifactId>maven-jar-plugin</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.2</version>
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.0</version>
           </plugin>
           <plugin>
             <artifactId>maven-source-plugin</artifactId>

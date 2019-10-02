@@ -37,7 +37,7 @@ import com.google.inject.Singleton;
 
 import org.bdgenomics.convert.Converter;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 import org.bdgenomics.formats.avro.GenotypeAllele;
 import org.bdgenomics.formats.avro.ProcessingStep;
 
@@ -67,8 +67,8 @@ public final class Ga4ghModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<AlignmentRecord, ReadAlignment> createAlignmentRecordToReadAlignment(Converter<Cigar, List<CigarUnit>> cigarConverter) {
-        return new AlignmentRecordToReadAlignment(cigarConverter);
+    Converter<Alignment, ReadAlignment> createAlignmentToReadAlignment(Converter<Cigar, List<CigarUnit>> cigarConverter) {
+        return new AlignmentToReadAlignment(cigarConverter);
     }
 
     @Provides @Singleton
