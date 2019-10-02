@@ -41,7 +41,7 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 import org.bdgenomics.formats.avro.Genotype;
 import org.bdgenomics.formats.avro.ProcessingStep;
 import org.bdgenomics.formats.avro.ReadGroup;
@@ -56,8 +56,8 @@ public final class HtsjdkModule extends AbstractModule {
     @Override
     protected void configure() {
         install(new FactoryModuleBuilder()
-            .implement(new TypeLiteral<Converter<AlignmentRecord, SAMRecord>>() {}, AlignmentRecordToSamRecord.class)
-            .build(AlignmentRecordToSamRecordFactory.class));
+            .implement(new TypeLiteral<Converter<Alignment, SAMRecord>>() {}, AlignmentToSamRecord.class)
+            .build(AlignmentToSamRecordFactory.class));
 
         install(new FactoryModuleBuilder()
             .implement(new TypeLiteral<Converter<List<Genotype>, VariantContext>>() {}, GenotypesToVariantContext.class)
@@ -87,8 +87,8 @@ public final class HtsjdkModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<SAMRecord, AlignmentRecord> createSamRecordToAlignmentRecord() {
-        return new SamRecordToAlignmentRecord();
+    Converter<SAMRecord, Alignment> createSamRecordToAlignment() {
+        return new SamRecordToAlignment();
     }
 
     @Provides @Singleton

@@ -33,14 +33,14 @@ import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.slf4j.Logger;
 
 /**
- * Convert AlignmentRecord to htsjdk SAMRecord.
+ * Convert Alignment to htsjdk SAMRecord.
  */
-public final class AlignmentRecordToSamRecord extends AbstractConverter<AlignmentRecord, SAMRecord> {
+public final class AlignmentToSamRecord extends AbstractConverter<Alignment, SAMRecord> {
 
     /** Regex to capture attributes. */
     private static final Pattern ATTRIBUTE = Pattern.compile("([^:]{2,4}):([AifZHB]):(.*)");
@@ -53,13 +53,13 @@ public final class AlignmentRecordToSamRecord extends AbstractConverter<Alignmen
 
 
     /**
-     * Create a new AlignmentRecord to htsjdk SAMRecord converter with the specified header.
+     * Create a new Alignment to htsjdk SAMRecord converter with the specified header.
      *
      * @param header header, must not be null
      */
     @Inject
-    public AlignmentRecordToSamRecord(@Assisted final SAMFileHeader header) {
-        super(AlignmentRecord.class, SAMRecord.class);
+    public AlignmentToSamRecord(@Assisted final SAMFileHeader header) {
+        super(Alignment.class, SAMRecord.class);
 
         checkNotNull(header);
         this.header = header;
@@ -67,27 +67,27 @@ public final class AlignmentRecordToSamRecord extends AbstractConverter<Alignmen
 
 
     @Override
-    public SAMRecord convert(final AlignmentRecord alignmentRecord,
+    public SAMRecord convert(final Alignment alignment,
                              final ConversionStringency stringency,
                              final Logger logger) throws ConversionException {
 
-        if (alignmentRecord == null) {
-            warnOrThrow(alignmentRecord, "must not be null", null, stringency, logger);
+        if (alignment == null) {
+            warnOrThrow(alignment, "must not be null", null, stringency, logger);
             return null;
         }
 
         SAMRecord builder = new SAMRecord(header);
-        builder.setReadName(alignmentRecord.getReadName());
-        builder.setReadString(alignmentRecord.getSequence());
+        builder.setReadName(alignment.getReadName());
+        builder.setReadString(alignment.getSequence());
 
-        if (alignmentRecord.getQualityScores() == null) {
+        if (alignment.getQualityScores() == null) {
             builder.setBaseQualityString("*");
         }
         else {
-            builder.setBaseQualityString(alignmentRecord.getQualityScores());
+            builder.setBaseQualityString(alignment.getQualityScores());
         }
 
-        String readGroupId = alignmentRecord.getReadGroupId();
+        String readGroupId = alignment.getReadGroupId();
         if (readGroupId != null) {
             builder.setAttribute("RG", readGroupId);
 
@@ -100,71 +100,71 @@ public final class AlignmentRecordToSamRecord extends AbstractConverter<Alignmen
             }
         }
 
-        if (alignmentRecord.getMateReferenceName() != null) {
-            builder.setMateReferenceName(alignmentRecord.getMateReferenceName());
+        if (alignment.getMateReferenceName() != null) {
+            builder.setMateReferenceName(alignment.getMateReferenceName());
         }
-        if (alignmentRecord.getMateAlignmentStart() != null) {
-            builder.setMateAlignmentStart(alignmentRecord.getMateAlignmentStart().intValue() + 1);
+        if (alignment.getMateAlignmentStart() != null) {
+            builder.setMateAlignmentStart(alignment.getMateAlignmentStart().intValue() + 1);
         }
-        if (alignmentRecord.getInsertSize() != null) {
-            builder.setInferredInsertSize(alignmentRecord.getInsertSize().intValue());
+        if (alignment.getInsertSize() != null) {
+            builder.setInferredInsertSize(alignment.getInsertSize().intValue());
         }
 
-        if (alignmentRecord.getReadPaired() != null) {
-            boolean readPaired = alignmentRecord.getReadPaired();
+        if (alignment.getReadPaired() != null) {
+            boolean readPaired = alignment.getReadPaired();
             builder.setReadPairedFlag(readPaired);
 
             if (readPaired) {
-                if (alignmentRecord.getMateNegativeStrand() != null) {
-                    builder.setMateNegativeStrandFlag(alignmentRecord.getMateNegativeStrand());
+                if (alignment.getMateNegativeStrand() != null) {
+                    builder.setMateNegativeStrandFlag(alignment.getMateNegativeStrand());
                 }
-                if (alignmentRecord.getMateMapped() != null) {
-                    builder.setMateUnmappedFlag(!alignmentRecord.getMateMapped());
+                if (alignment.getMateMapped() != null) {
+                    builder.setMateUnmappedFlag(!alignment.getMateMapped());
                 }
-                if (alignmentRecord.getProperPair() != null) {
-                    builder.setProperPairFlag(alignmentRecord.getProperPair());
+                if (alignment.getProperPair() != null) {
+                    builder.setProperPairFlag(alignment.getProperPair());
                 }
-                if (alignmentRecord.getReadInFragment() != null) {
-                    builder.setFirstOfPairFlag(alignmentRecord.getReadInFragment() == 0);
-                    builder.setSecondOfPairFlag(alignmentRecord.getReadInFragment() == 1);
+                if (alignment.getReadInFragment() != null) {
+                    builder.setFirstOfPairFlag(alignment.getReadInFragment() == 0);
+                    builder.setSecondOfPairFlag(alignment.getReadInFragment() == 1);
                 }
             }
         }
 
-        if (alignmentRecord.getDuplicateRead() != null) {
-            builder.setDuplicateReadFlag(alignmentRecord.getDuplicateRead());
+        if (alignment.getDuplicateRead() != null) {
+            builder.setDuplicateReadFlag(alignment.getDuplicateRead());
         }
 
-        if (alignmentRecord.getReadMapped() != null) {
-            boolean readMapped = alignmentRecord.getReadMapped();
+        if (alignment.getReadMapped() != null) {
+            boolean readMapped = alignment.getReadMapped();
             builder.setReadUnmappedFlag(!readMapped);
 
-            if (alignmentRecord.getReadNegativeStrand() != null) {
-                builder.setReadNegativeStrandFlag(alignmentRecord.getReadNegativeStrand());
+            if (alignment.getReadNegativeStrand() != null) {
+                builder.setReadNegativeStrandFlag(alignment.getReadNegativeStrand());
             }
 
             if (readMapped) {
-                if (alignmentRecord.getReferenceName() == null) {
-                    warnOrThrow(alignmentRecord, "referenceName must not be null if read aligned", null, stringency, logger);
+                if (alignment.getReferenceName() == null) {
+                    warnOrThrow(alignment, "referenceName must not be null if read aligned", null, stringency, logger);
                 }
                 else {
-                    builder.setReferenceName(alignmentRecord.getReferenceName());
+                    builder.setReferenceName(alignment.getReferenceName());
                 }
 
-                if (alignmentRecord.getCigar() != null) {
-                    builder.setCigarString(alignmentRecord.getCigar());
+                if (alignment.getCigar() != null) {
+                    builder.setCigarString(alignment.getCigar());
                 }
-                if (alignmentRecord.getPrimaryAlignment() != null) {
-                    builder.setNotPrimaryAlignmentFlag(!alignmentRecord.getPrimaryAlignment());
+                if (alignment.getPrimaryAlignment() != null) {
+                    builder.setNotPrimaryAlignmentFlag(!alignment.getPrimaryAlignment());
                 }
-                if (alignmentRecord.getSupplementaryAlignment() != null) {
-                    builder.setSupplementaryAlignmentFlag(alignmentRecord.getSupplementaryAlignment());
+                if (alignment.getSupplementaryAlignment() != null) {
+                    builder.setSupplementaryAlignmentFlag(alignment.getSupplementaryAlignment());
                 }
-                if (alignmentRecord.getStart() != null) {
-                    builder.setAlignmentStart(alignmentRecord.getStart().intValue() + 1);
+                if (alignment.getStart() != null) {
+                    builder.setAlignmentStart(alignment.getStart().intValue() + 1);
                 }
-                if (alignmentRecord.getMappingQuality() != null) {
-                    builder.setMappingQuality(alignmentRecord.getMappingQuality());
+                if (alignment.getMappingQuality() != null) {
+                    builder.setMappingQuality(alignment.getMappingQuality());
                 }
             }
             else {
@@ -172,24 +172,24 @@ public final class AlignmentRecordToSamRecord extends AbstractConverter<Alignmen
             }
         }
 
-        if (alignmentRecord.getFailedVendorQualityChecks() != null) {
-            builder.setReadFailsVendorQualityCheckFlag(alignmentRecord.getFailedVendorQualityChecks());
+        if (alignment.getFailedVendorQualityChecks() != null) {
+            builder.setReadFailsVendorQualityCheckFlag(alignment.getFailedVendorQualityChecks());
         }
-        if (alignmentRecord.getMismatchingPositions() != null) {
-            builder.setAttribute("MD", alignmentRecord.getMismatchingPositions());
+        if (alignment.getMismatchingPositions() != null) {
+            builder.setAttribute("MD", alignment.getMismatchingPositions());
         }
-        if (alignmentRecord.getOriginalQualityScores() != null) {
-            builder.setOriginalBaseQualities(SAMUtils.fastqToPhred(alignmentRecord.getOriginalQualityScores()));
+        if (alignment.getOriginalQualityScores() != null) {
+            builder.setOriginalBaseQualities(SAMUtils.fastqToPhred(alignment.getOriginalQualityScores()));
         }
-        if (alignmentRecord.getOriginalCigar() != null) {
-            builder.setAttribute("OC", alignmentRecord.getOriginalCigar());
+        if (alignment.getOriginalCigar() != null) {
+            builder.setAttribute("OC", alignment.getOriginalCigar());
         }
-        if (alignmentRecord.getOriginalStart() != null) {
-            builder.setAttribute("OP", alignmentRecord.getOriginalStart().intValue() + 1);
+        if (alignment.getOriginalStart() != null) {
+            builder.setAttribute("OP", alignment.getOriginalStart().intValue() + 1);
         }
 
-        if (alignmentRecord.getAttributes() != null) {
-            String[] tokens = alignmentRecord.getAttributes().split("\t");
+        if (alignment.getAttributes() != null) {
+            String[] tokens = alignment.getAttributes().split("\t");
             for (String token : tokens) {
                 Matcher m = ATTRIBUTE.matcher(token);
                 if (m.matches()) {
@@ -228,7 +228,7 @@ public final class AlignmentRecordToSamRecord extends AbstractConverter<Alignmen
                     case "B:f,":
                         builder.setAttribute(tagName, splitToFloatArray(value));
                     default:
-                        warnOrThrow(alignmentRecord, "invalid attribute type " + tagType, null, stringency, logger);
+                        warnOrThrow(alignment, "invalid attribute type " + tagType, null, stringency, logger);
                     }
                 }
             }
