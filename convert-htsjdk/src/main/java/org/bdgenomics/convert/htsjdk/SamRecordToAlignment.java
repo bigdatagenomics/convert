@@ -32,14 +32,14 @@ import org.bdgenomics.convert.AbstractConverter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.slf4j.Logger;
 
 /**
- * Convert htsjdk SAMRecord to AlignmentRecord.
+ * Convert htsjdk SAMRecord to Alignment.
  */
-public final class SamRecordToAlignmentRecord extends AbstractConverter<SAMRecord, AlignmentRecord> {
+public final class SamRecordToAlignment extends AbstractConverter<SAMRecord, Alignment> {
 
     /** Regex to capture the first cigar operation. */
     private static final Pattern FIRST_CIGAR_OPERATION = Pattern.compile("^([0-9]*)([A-Z]).*$");
@@ -52,15 +52,15 @@ public final class SamRecordToAlignmentRecord extends AbstractConverter<SAMRecor
 
 
     /**
-     * Create a new htsjdk SAMRecord to AlignmentRecord converter.
+     * Create a new htsjdk SAMRecord to Alignment converter.
      */
-    public SamRecordToAlignmentRecord() {
-        super(SAMRecord.class, AlignmentRecord.class);
+    public SamRecordToAlignment() {
+        super(SAMRecord.class, Alignment.class);
     }
 
 
     @Override
-    public AlignmentRecord convert(final SAMRecord samRecord,
+    public Alignment convert(final SAMRecord samRecord,
                                    final ConversionStringency stringency,
                                    final Logger logger) throws ConversionException {
 
@@ -69,7 +69,7 @@ public final class SamRecordToAlignmentRecord extends AbstractConverter<SAMRecor
             return null;
         }
 
-        AlignmentRecord.Builder builder = AlignmentRecord.newBuilder()
+        Alignment.Builder builder = Alignment.newBuilder()
             .setReadName(samRecord.getReadName())
             .setSequence(samRecord.getReadString());
 

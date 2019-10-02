@@ -22,34 +22,34 @@ import htsjdk.samtools.SAMRecord;
 
 import org.bdgenomics.convert.Converter;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 /**
- * Factory for creating AlignmentRecord to htsjdk SAMRecord converters, which
+ * Factory for creating Alignment to htsjdk SAMRecord converters, which
  * require late binding for a SAMFileHeader.
  *
  * Thus instead of a converter instance, a converter factory is available via injection:
  * <pre>
  * final class MyClass {
- *   private final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory;
+ *   private final AlignmentToSamRecordFactory alignmentToSamRecordFactory;
  *
  *   @Inject
- *   MyClass(final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory) {
- *     this.alignmentRecordToSamRecordFactory = alignmentRecordToSamRecordFactory;
+ *   MyClass(final AlignmentToSamRecordFactory alignmentToSamRecordFactory) {
+ *     this.alignmentToSamRecordFactory = alignmentToSamRecordFactory;
  *   }
  *
  *   void doIt() {
- *     Converter&lt;AlignmentRecord, SAMRecord&gt; converter = alignmentRecordToSamRecordFactory.create(header);
- *     SAMRecord record = converter.convert(alignmentRecord, stringency, logger);
+ *     Converter&lt;Alignment, SAMRecord&gt; converter = alignmentToSamRecordFactory.create(header);
+ *     SAMRecord record = converter.convert(alignment, stringency, logger);
  *     // ...
  * </pre>
  */
-public interface AlignmentRecordToSamRecordFactory {
+public interface AlignmentToSamRecordFactory {
 
     /**
-     * Create a new AlignmentRecord to htsjdk SAMRecord converter with the specified header.
+     * Create a new Alignment to htsjdk SAMRecord converter with the specified header.
      *
      * @param header header, must not be null
      */
-    Converter<AlignmentRecord, SAMRecord> create(SAMFileHeader header);
+    Converter<Alignment, SAMRecord> create(SAMFileHeader header);
 }

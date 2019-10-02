@@ -44,7 +44,7 @@ import org.junit.Test;
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 import org.bdgenomics.formats.avro.Genotype;
 import org.bdgenomics.formats.avro.ProcessingStep;
 import org.bdgenomics.formats.avro.ReadGroup;
@@ -74,7 +74,7 @@ public final class HtsjdkModuleTest {
         Target target = injector.getInstance(Target.class);
         assertNotNull(target.getConversionStringencyToValidationStringency());
         assertNotNull(target.getValidationStringencyToConversionStringency());
-        assertNotNull(target.getSamRecordToAlignmentRecord());
+        assertNotNull(target.getSamRecordToAlignment());
         assertNotNull(target.getSamProgramRecordToProcessingStep());
         assertNotNull(target.getSamHeaderToProcessingSteps());
         assertNotNull(target.getSamReadGroupRecordToReadGroup());
@@ -86,8 +86,8 @@ public final class HtsjdkModuleTest {
         assertNotNull(target.getVcfHeaderToVcfHeaderLines());
 
         SAMFileHeader samFileHeader = new SAMFileHeader();
-        assertNotNull(target.getAlignmentRecordToSamRecordFactory());
-        assertNotNull(target.getAlignmentRecordToSamRecordFactory().create(samFileHeader));
+        assertNotNull(target.getAlignmentToSamRecordFactory());
+        assertNotNull(target.getAlignmentToSamRecordFactory().create(samFileHeader));
 
         VCFHeader vcfHeader = new VCFHeader();
         assertNotNull(target.getGenotypesToVariantContextFactory());
@@ -106,7 +106,7 @@ public final class HtsjdkModuleTest {
     static class Target {
         final Converter<ConversionStringency, ValidationStringency> conversionStringencyToValidationStringency;
         final Converter<ValidationStringency, ConversionStringency> validationStringencyToConversionStringency;
-        final Converter<SAMRecord, AlignmentRecord> samRecordToAlignmentRecord;
+        final Converter<SAMRecord, Alignment> samRecordToAlignment;
         final Converter<SAMProgramRecord, ProcessingStep> samProgramRecordToProcessingStep;
         final Converter<SAMFileHeader, List<ProcessingStep>> samHeaderToProcessingSteps;
         final Converter<SAMReadGroupRecord, ReadGroup> samReadGroupRecordToReadGroup;
@@ -116,7 +116,7 @@ public final class HtsjdkModuleTest {
         final Converter<VCFHeader, List<Reference>> vcfHeaderToReferences;
         final Converter<VCFHeader, List<Sample>> vcfHeaderToSamples;
         final Converter<VCFHeader, List<VCFHeaderLine>> vcfHeaderToVcfHeaderLines;
-        final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory;
+        final AlignmentToSamRecordFactory alignmentToSamRecordFactory;
         final GenotypesToVariantContextFactory genotypesToVariantContextFactory;
         final VariantToVariantContextFactory variantToVariantContextFactory;
         final VariantContextToGenotypesFactory variantContextToGenotypesFactory;
@@ -125,7 +125,7 @@ public final class HtsjdkModuleTest {
         @Inject
         Target(final Converter<ConversionStringency, ValidationStringency> conversionStringencyToValidationStringency,
                final Converter<ValidationStringency, ConversionStringency> validationStringencyToConversionStringency,
-               final Converter<SAMRecord, AlignmentRecord> samRecordToAlignmentRecord,
+               final Converter<SAMRecord, Alignment> samRecordToAlignment,
                final Converter<SAMProgramRecord, ProcessingStep> samProgramRecordToProcessingStep,
                final Converter<SAMFileHeader, List<ProcessingStep>> samHeaderToProcessingSteps,
                final Converter<SAMReadGroupRecord, ReadGroup> samReadGroupRecordToReadGroup,
@@ -135,7 +135,7 @@ public final class HtsjdkModuleTest {
                final Converter<VCFHeader, List<Reference>> vcfHeaderToReferences,
                final Converter<VCFHeader, List<Sample>> vcfHeaderToSamples,
                final Converter<VCFHeader, List<VCFHeaderLine>> vcfHeaderToVcfHeaderLines,
-               final AlignmentRecordToSamRecordFactory alignmentRecordToSamRecordFactory,
+               final AlignmentToSamRecordFactory alignmentToSamRecordFactory,
                final GenotypesToVariantContextFactory genotypesToVariantContextFactory,
                final VariantToVariantContextFactory variantToVariantContextFactory,
                final VariantContextToGenotypesFactory variantContextToGenotypesFactory,
@@ -143,7 +143,7 @@ public final class HtsjdkModuleTest {
 
             this.conversionStringencyToValidationStringency = conversionStringencyToValidationStringency;
             this.validationStringencyToConversionStringency = validationStringencyToConversionStringency;
-            this.samRecordToAlignmentRecord = samRecordToAlignmentRecord;
+            this.samRecordToAlignment = samRecordToAlignment;
             this.samProgramRecordToProcessingStep = samProgramRecordToProcessingStep;
             this.samHeaderToProcessingSteps = samHeaderToProcessingSteps;
             this.samReadGroupRecordToReadGroup = samReadGroupRecordToReadGroup;
@@ -153,7 +153,7 @@ public final class HtsjdkModuleTest {
             this.vcfHeaderToReferences = vcfHeaderToReferences;
             this.vcfHeaderToSamples = vcfHeaderToSamples;
             this.vcfHeaderToVcfHeaderLines = vcfHeaderToVcfHeaderLines;
-            this.alignmentRecordToSamRecordFactory = alignmentRecordToSamRecordFactory;
+            this.alignmentToSamRecordFactory = alignmentToSamRecordFactory;
             this.genotypesToVariantContextFactory = genotypesToVariantContextFactory;
             this.variantToVariantContextFactory = variantToVariantContextFactory;
             this.variantContextToGenotypesFactory = variantContextToGenotypesFactory;
@@ -168,8 +168,8 @@ public final class HtsjdkModuleTest {
             return validationStringencyToConversionStringency;
         }
 
-        Converter<SAMRecord, AlignmentRecord> getSamRecordToAlignmentRecord() {
-            return samRecordToAlignmentRecord;
+        Converter<SAMRecord, Alignment> getSamRecordToAlignment() {
+            return samRecordToAlignment;
         }
 
         Converter<SAMProgramRecord, ProcessingStep> getSamProgramRecordToProcessingStep() {
@@ -208,8 +208,8 @@ public final class HtsjdkModuleTest {
             return vcfHeaderToVcfHeaderLines;
         }
 
-        AlignmentRecordToSamRecordFactory getAlignmentRecordToSamRecordFactory() {
-            return alignmentRecordToSamRecordFactory;
+        AlignmentToSamRecordFactory getAlignmentToSamRecordFactory() {
+            return alignmentToSamRecordFactory;
         }
 
         GenotypesToVariantContextFactory getGenotypesToVariantContextFactory() {

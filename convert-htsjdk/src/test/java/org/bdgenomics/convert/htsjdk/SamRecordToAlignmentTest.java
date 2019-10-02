@@ -31,7 +31,7 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,12 +40,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for SamRecordToAlignmentRecord.
+ * Unit test for SamRecordToAlignment.
  */
-public final class SamRecordToAlignmentRecordTest {
-    private final Logger logger = LoggerFactory.getLogger(SamRecordToAlignmentRecordTest.class);
+public final class SamRecordToAlignmentTest {
+    private final Logger logger = LoggerFactory.getLogger(SamRecordToAlignmentTest.class);
 
-    Converter<SAMRecord, AlignmentRecord> converter;
+    Converter<SAMRecord, Alignment> converter;
     SAMFileHeader header;
 
     @Before
@@ -54,7 +54,7 @@ public final class SamRecordToAlignmentRecordTest {
         SAMSequenceRecord sequenceRecord = new SAMSequenceRecord("1", 3000000);
         header.getSequenceDictionary().addSequence(sequenceRecord);
 
-        converter = new SamRecordToAlignmentRecord();
+        converter = new SamRecordToAlignment();
     }
 
     @Test
@@ -94,10 +94,10 @@ public final class SamRecordToAlignmentRecordTest {
         samRecord.setReferenceName("1");
         samRecord.setAlignmentStart(0);
 
-        AlignmentRecord alignmentRecord = converter.convert(samRecord, LENIENT, logger);
-        assertEquals(samRecord.getReferenceName(), alignmentRecord.getReferenceName());
-        assertNull(alignmentRecord.getStart());
-        assertNull(alignmentRecord.getEnd());
+        Alignment alignment = converter.convert(samRecord, LENIENT, logger);
+        assertEquals(samRecord.getReferenceName(), alignment.getReferenceName());
+        assertNull(alignment.getStart());
+        assertNull(alignment.getEnd());
     }
 
     @Test
@@ -107,10 +107,10 @@ public final class SamRecordToAlignmentRecordTest {
         samRecord.setReferenceName("1");
         samRecord.setAlignmentStart(0);
 
-        AlignmentRecord alignmentRecord = converter.convert(samRecord, SILENT, logger);
-        assertEquals(samRecord.getReferenceName(), alignmentRecord.getReferenceName());
-        assertNull(alignmentRecord.getStart());
-        assertNull(alignmentRecord.getEnd());
+        Alignment alignment = converter.convert(samRecord, SILENT, logger);
+        assertEquals(samRecord.getReferenceName(), alignment.getReferenceName());
+        assertNull(alignment.getStart());
+        assertNull(alignment.getEnd());
     }
 
     @Test(expected=ConversionException.class)
@@ -130,9 +130,9 @@ public final class SamRecordToAlignmentRecordTest {
         samRecord.setMateReferenceName("1");
         samRecord.setMateAlignmentStart(0);
 
-        AlignmentRecord alignmentRecord = converter.convert(samRecord, LENIENT, logger);
-        assertEquals(samRecord.getMateReferenceName(), alignmentRecord.getMateReferenceName());
-        assertNull(alignmentRecord.getMateAlignmentStart());
+        Alignment alignment = converter.convert(samRecord, LENIENT, logger);
+        assertEquals(samRecord.getMateReferenceName(), alignment.getMateReferenceName());
+        assertNull(alignment.getMateAlignmentStart());
     }
 
     @Test
@@ -142,9 +142,9 @@ public final class SamRecordToAlignmentRecordTest {
         samRecord.setMateReferenceName("1");
         samRecord.setMateAlignmentStart(0);
 
-        AlignmentRecord alignmentRecord = converter.convert(samRecord, SILENT, logger);
-        assertEquals(samRecord.getMateReferenceName(), alignmentRecord.getMateReferenceName());
-        assertNull(alignmentRecord.getMateAlignmentStart());
+        Alignment alignment = converter.convert(samRecord, SILENT, logger);
+        assertEquals(samRecord.getMateReferenceName(), alignment.getMateReferenceName());
+        assertNull(alignment.getMateAlignmentStart());
     }
 
     @Test

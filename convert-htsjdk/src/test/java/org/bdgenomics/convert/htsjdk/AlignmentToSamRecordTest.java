@@ -30,7 +30,7 @@ import htsjdk.samtools.SAMSequenceRecord;
 import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,13 +39,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for AlignmentRecordToSamRecord.
+ * Unit test for AlignmentToSamRecord.
  */
-public final class AlignmentRecordToSamRecordTest {
-    private final Logger logger = LoggerFactory.getLogger(AlignmentRecordToSamRecordTest.class);
+public final class AlignmentToSamRecordTest {
+    private final Logger logger = LoggerFactory.getLogger(AlignmentToSamRecordTest.class);
 
     SAMFileHeader header;
-    Converter<AlignmentRecord, SAMRecord> converter;
+    Converter<Alignment, SAMRecord> converter;
 
     @Before
     public void setUp() {
@@ -53,7 +53,7 @@ public final class AlignmentRecordToSamRecordTest {
         SAMSequenceRecord sequenceRecord = new SAMSequenceRecord("1", 3000000);
         header.getSequenceDictionary().addSequence(sequenceRecord);
 
-        converter = new AlignmentRecordToSamRecord(header);
+        converter = new AlignmentToSamRecord(header);
     }
 
     @Test
@@ -63,7 +63,7 @@ public final class AlignmentRecordToSamRecordTest {
 
     @Test(expected=NullPointerException.class)
     public void testConstructorNullHeader() {
-        new AlignmentRecordToSamRecord(null);
+        new AlignmentToSamRecord(null);
     }
 
     @Test(expected=ConversionException.class)
@@ -83,33 +83,33 @@ public final class AlignmentRecordToSamRecordTest {
 
     @Test(expected=ConversionException.class)
     public void testConvertNullReferenceNameStrict() {
-        AlignmentRecord alignmentRecord = AlignmentRecord.newBuilder()
+        Alignment alignment = Alignment.newBuilder()
             .setReadMapped(true)
             .setReferenceName(null)
             .build();
 
-        converter.convert(alignmentRecord, STRICT, logger);
+        converter.convert(alignment, STRICT, logger);
     }
 
     @Test
     public void testConvertNullReferenceNameLenient() {
-        AlignmentRecord alignmentRecord = AlignmentRecord.newBuilder()
+        Alignment alignment = Alignment.newBuilder()
             .setReadMapped(true)
             .setReferenceName(null)
             .build();
 
-        SAMRecord samRecord = converter.convert(alignmentRecord, LENIENT, logger);
+        SAMRecord samRecord = converter.convert(alignment, LENIENT, logger);
         assertEquals("*", samRecord.getReferenceName());
     }
 
     @Test
     public void testConvertNullReferenceNameSilent() {
-        AlignmentRecord alignmentRecord = AlignmentRecord.newBuilder()
+        Alignment alignment = Alignment.newBuilder()
             .setReadMapped(true)
             .setReferenceName(null)
             .build();
 
-        SAMRecord samRecord = converter.convert(alignmentRecord, SILENT, logger);
+        SAMRecord samRecord = converter.convert(alignment, SILENT, logger);
         assertEquals("*", samRecord.getReferenceName());
     }
 
