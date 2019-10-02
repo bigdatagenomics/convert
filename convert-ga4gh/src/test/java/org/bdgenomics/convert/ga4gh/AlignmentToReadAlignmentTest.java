@@ -41,7 +41,7 @@ import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 import org.bdgenomics.convert.Converter;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,23 +50,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unit test for AlignmentRecordToReadAlignment.
+ * Unit test for AlignmentToReadAlignment.
  */
-public final class AlignmentRecordToReadAlignmentTest {
-    private final Logger logger = LoggerFactory.getLogger(AlignmentRecordToReadAlignmentTest.class);
+public final class AlignmentToReadAlignmentTest {
+    private final Logger logger = LoggerFactory.getLogger(AlignmentToReadAlignmentTest.class);
     private Converter<CigarOperator, Operation> operatorConverter;
     private Converter<Cigar, List<CigarUnit>> cigarConverter;
-    private Converter<AlignmentRecord, ReadAlignment> alignmentConverter;
+    private Converter<Alignment, ReadAlignment> alignmentConverter;
 
-    private AlignmentRecord alignment;
+    private Alignment alignment;
 
     @Before
     public void setUp() {
         operatorConverter = new CigarOperatorToOperation();
         cigarConverter = new CigarToCigarUnits(operatorConverter);
-        alignmentConverter = new AlignmentRecordToReadAlignment(cigarConverter);
+        alignmentConverter = new AlignmentToReadAlignment(cigarConverter);
 
-        alignment = AlignmentRecord.newBuilder()
+        alignment = Alignment.newBuilder()
             .setReadName("read0")
             .setStart(10L)
             .setReadMapped(true)
@@ -101,7 +101,7 @@ public final class AlignmentRecordToReadAlignmentTest {
 
     @Test(expected=NullPointerException.class)
     public void testConstructorNullCigarConverter() {
-        new AlignmentRecordToReadAlignment(null);
+        new AlignmentToReadAlignment(null);
     }
 
     @Test(expected=ConversionException.class)
@@ -141,7 +141,7 @@ public final class AlignmentRecordToReadAlignmentTest {
 
     @Test
     public void testConvertNoMapq() {
-      AlignmentRecord alignmentNoMapq = AlignmentRecord.newBuilder()
+      Alignment alignmentNoMapq = Alignment.newBuilder()
           .setReadName("read0")
           .setStart(10L)
           .setReadMapped(true)

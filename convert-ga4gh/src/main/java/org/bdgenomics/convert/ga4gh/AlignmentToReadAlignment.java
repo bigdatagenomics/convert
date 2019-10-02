@@ -39,92 +39,92 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 
 import org.slf4j.Logger;
 
 /**
- * Convert bgd-formats AlignmentRecord to GA4GH ReadAlignment.
+ * Convert bgd-formats Alignment to GA4GH ReadAlignment.
  */
 @Immutable
-final class AlignmentRecordToReadAlignment extends AbstractConverter<AlignmentRecord, ReadAlignment> {
+final class AlignmentToReadAlignment extends AbstractConverter<Alignment, ReadAlignment> {
     /** Convert htsjdk Cigar to a list of GA4GH CigarUnits. */
     private final Converter<Cigar, List<CigarUnit>> cigarConverter;
 
     /**
-     * Convert bgd-formats AlignmentRecord to GA4GH ReadAlignment.
+     * Convert bgd-formats Alignment to GA4GH ReadAlignment.
      *
      * @param cigarConverter cigar converter, must not be null
      */
-    AlignmentRecordToReadAlignment(final Converter<Cigar, List<CigarUnit>> cigarConverter) {
-        super(AlignmentRecord.class, ReadAlignment.class);
+    AlignmentToReadAlignment(final Converter<Cigar, List<CigarUnit>> cigarConverter) {
+        super(Alignment.class, ReadAlignment.class);
         checkNotNull(cigarConverter);
         this.cigarConverter = cigarConverter;
     }
 
 
     @Override
-    public ReadAlignment convert(final AlignmentRecord alignmentRecord,
+    public ReadAlignment convert(final Alignment alignment,
                                  final ConversionStringency stringency,
                                  final Logger logger) throws ConversionException {
 
-        if (alignmentRecord == null) {
-            warnOrThrow(alignmentRecord, "must not be null", null, stringency, logger);
+        if (alignment == null) {
+            warnOrThrow(alignment, "must not be null", null, stringency, logger);
             return null;
         }
         ReadAlignment.Builder builder = ReadAlignment.newBuilder()
-            .setAlignedSequence(alignmentRecord.getSequence())
-            .setDuplicateFragment(alignmentRecord.getDuplicateRead())
-            .setFailedVendorQualityChecks(alignmentRecord.getFailedVendorQualityChecks())
-            .setFragmentName(alignmentRecord.getReadName())
-            .setImproperPlacement(!alignmentRecord.getProperPair())
-            .setNumberReads(alignmentRecord.getReadPaired() ? 2 : 1)
-            .setReadGroupId(isNotEmpty(alignmentRecord.getReadGroupId()) ? alignmentRecord.getReadGroupId() : "1")
-            .setReadNumber(alignmentRecord.getReadInFragment())
-            .setSecondaryAlignment(alignmentRecord.getSecondaryAlignment())
-            .setSupplementaryAlignment(alignmentRecord.getSupplementaryAlignment());
+            .setAlignedSequence(alignment.getSequence())
+            .setDuplicateFragment(alignment.getDuplicateRead())
+            .setFailedVendorQualityChecks(alignment.getFailedVendorQualityChecks())
+            .setFragmentName(alignment.getReadName())
+            .setImproperPlacement(!alignment.getProperPair())
+            .setNumberReads(alignment.getReadPaired() ? 2 : 1)
+            .setReadGroupId(isNotEmpty(alignment.getReadGroupId()) ? alignment.getReadGroupId() : "1")
+            .setReadNumber(alignment.getReadInFragment())
+            .setSecondaryAlignment(alignment.getSecondaryAlignment())
+            .setSupplementaryAlignment(alignment.getSupplementaryAlignment());
 
-        if (alignmentRecord.getInsertSize() != null) {
-            builder.setFragmentLength(alignmentRecord.getInsertSize().intValue());
+        if (alignment.getInsertSize() != null) {
+            builder.setFragmentLength(alignment.getInsertSize().intValue());
         }
 
-        if (alignmentRecord.getMateReferenceName() != null) {
+        if (alignment.getMateReferenceName() != null) {
             Position matePosition = Position.newBuilder()
-                .setReferenceName(alignmentRecord.getMateReferenceName())
-                .setPosition(alignmentRecord.getMateAlignmentStart())
-                .setStrand(alignmentRecord.getMateNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
+                .setReferenceName(alignment.getMateReferenceName())
+                .setPosition(alignment.getMateAlignmentStart())
+                .setStrand(alignment.getMateNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
                 .build();
 
             builder.setNextMatePosition(matePosition);
         }
 
-        if (isNotEmpty(alignmentRecord.getQualityScores())) {
-            List<Integer> alignedQuality = new ArrayList<Integer>(alignmentRecord.getQualityScores().length());
-            for (char c : alignmentRecord.getQualityScores().toCharArray()) {
+        if (isNotEmpty(alignment.getQualityScores())) {
+            List<Integer> alignedQuality = new ArrayList<Integer>(alignment.getQualityScores().length());
+            for (char c : alignment.getQualityScores().toCharArray()) {
                 alignedQuality.add(((int) c) - 33);
             }
             builder.addAllAlignedQuality(alignedQuality);
         }
 
-        if (alignmentRecord.getReadMapped()) {
+        if (alignment.getReadMapped()) {
             Position position = Position.newBuilder()
-                .setReferenceName(alignmentRecord.getReferenceName())
-                .setPosition(alignmentRecord.getStart())
-                .setStrand(alignmentRecord.getReadNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
+                .setReferenceName(alignment.getReferenceName())
+                .setPosition(alignment.getStart())
+                .setStrand(alignment.getReadNegativeStrand() ? Strand.NEG_STRAND : Strand.POS_STRAND)
                 .build();
 
             LinearAlignment.Builder alignmentBuilder = LinearAlignment.newBuilder()
                 .setPosition(position);
 
-            if (alignmentRecord.getMappingQuality() != null)
-              alignmentBuilder.setMappingQuality(alignmentRecord.getMappingQuality());
+            if (alignment.getMappingQuality() != null)
+              alignmentBuilder.setMappingQuality(alignment.getMappingQuality());
 
             Cigar cigar = null;
             try {
-                cigar = TextCigarCodec.decode(alignmentRecord.getCigar());
+                cigar = TextCigarCodec.decode(alignment.getCigar());
             }
             catch (RuntimeException e) { // sigh ...
-                warnOrThrow(alignmentRecord, "could not decode cigar, caught " + e.getMessage(), e, stringency, logger);
+                warnOrThrow(alignment, "could not decode cigar, caught " + e.getMessage(), e, stringency, logger);
             }
             if (cigar != null) {
                 alignmentBuilder.addAllCigar(cigarConverter.convert(cigar, stringency, logger));

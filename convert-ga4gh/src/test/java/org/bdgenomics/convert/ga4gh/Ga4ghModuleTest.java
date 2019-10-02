@@ -39,7 +39,7 @@ import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.convert.bdgenomics.BdgenomicsModule;
 
-import org.bdgenomics.formats.avro.AlignmentRecord;
+import org.bdgenomics.formats.avro.Alignment;
 import org.bdgenomics.formats.avro.ProcessingStep;
 
 import org.junit.Before;
@@ -73,7 +73,7 @@ public final class Ga4ghModuleTest {
         assertNotNull(target.getGa4ghStrandToBdgenomicsStrand());
         assertNotNull(target.getCigarOperatorToOperation());
         assertNotNull(target.getCigarToCigarUnits());
-        assertNotNull(target.getAlignmentRecordToReadAlignment());
+        assertNotNull(target.getAlignmentToReadAlignment());
         assertNotNull(target.getProcessingStepToProgram());
         assertNotNull(target.getProgramToProcessingStep());
         assertNotNull(target.getBdgenomicsReadGroupToGa4ghReadGroup());
@@ -92,7 +92,7 @@ public final class Ga4ghModuleTest {
         Converter<ga4gh.Common.Strand, org.bdgenomics.formats.avro.Strand> ga4ghStrandToBdgenomicsStrand;
         Converter<CigarOperator, Operation> cigarOperatorToOperation;
         Converter<Cigar, List<CigarUnit>> cigarToCigarUnits;
-        Converter<AlignmentRecord, ReadAlignment> alignmentRecordToReadAlignment;
+        Converter<Alignment, ReadAlignment> alignmentToReadAlignment;
         Converter<ProcessingStep, Program> processingStepToProgram;
         Converter<Program, ProcessingStep> programToProcessingStep;
         Converter<ga4gh.Reads.ReadGroup, org.bdgenomics.formats.avro.ReadGroup> ga4ghReadGroupToBdgenomicsReadGroup;
@@ -107,7 +107,7 @@ public final class Ga4ghModuleTest {
                final Converter<ga4gh.Common.Strand, org.bdgenomics.formats.avro.Strand> ga4ghStrandToBdgenomicsStrand,
                final Converter<CigarOperator, Operation> cigarOperatorToOperation,
                final Converter<Cigar, List<CigarUnit>> cigarToCigarUnits,
-               final Converter<AlignmentRecord, ReadAlignment> alignmentRecordToReadAlignment,
+               final Converter<Alignment, ReadAlignment> alignmentToReadAlignment,
                final Converter<ProcessingStep, Program> processingStepToProgram,
                final Converter<Program, ProcessingStep> programToProcessingStep,
                final Converter<ga4gh.Reads.ReadGroup, org.bdgenomics.formats.avro.ReadGroup> ga4ghReadGroupToBdgenomicsReadGroup,
@@ -121,7 +121,7 @@ public final class Ga4ghModuleTest {
             this.ga4ghStrandToBdgenomicsStrand = ga4ghStrandToBdgenomicsStrand;
             this.cigarOperatorToOperation = cigarOperatorToOperation;
             this.cigarToCigarUnits = cigarToCigarUnits;
-            this.alignmentRecordToReadAlignment = alignmentRecordToReadAlignment;
+            this.alignmentToReadAlignment = alignmentToReadAlignment;
             this.processingStepToProgram = processingStepToProgram;
             this.programToProcessingStep = programToProcessingStep;
             this.ga4ghReadGroupToBdgenomicsReadGroup = ga4ghReadGroupToBdgenomicsReadGroup;
@@ -160,8 +160,8 @@ public final class Ga4ghModuleTest {
             return cigarToCigarUnits;
         }
 
-        Converter<AlignmentRecord, ReadAlignment> getAlignmentRecordToReadAlignment() {
-            return alignmentRecordToReadAlignment;
+        Converter<Alignment, ReadAlignment> getAlignmentToReadAlignment() {
+            return alignmentToReadAlignment;
         }
 
         Converter<ProcessingStep, Program> getProcessingStepToProgram() {
