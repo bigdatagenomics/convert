@@ -35,6 +35,7 @@ public interface VariantToVariantContextFactory {
      * Create a new Variant to VariantContext converter with the specified header.
      *
      * @param header header, must not be null
+     * @return a new Variant to VariantContext converter with the specified header
      */
     Converter<Variant, VariantContext> create(VCFHeader header);
 }

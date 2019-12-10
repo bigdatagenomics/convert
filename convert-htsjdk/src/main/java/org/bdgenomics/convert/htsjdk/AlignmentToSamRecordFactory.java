@@ -33,7 +33,7 @@ import org.bdgenomics.formats.avro.Alignment;
  * final class MyClass {
  *   private final AlignmentToSamRecordFactory alignmentToSamRecordFactory;
  *
- *   @Inject
+ *   &#64;Inject
  *   MyClass(final AlignmentToSamRecordFactory alignmentToSamRecordFactory) {
  *     this.alignmentToSamRecordFactory = alignmentToSamRecordFactory;
  *   }
@@ -50,6 +50,7 @@ public interface AlignmentToSamRecordFactory {
      * Create a new Alignment to htsjdk SAMRecord converter with the specified header.
      *
      * @param header header, must not be null
+     * @return a new Alignment to htsjdk SAMRecord converter with the specified header
      */
     Converter<Alignment, SAMRecord> create(SAMFileHeader header);
 }
