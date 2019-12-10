@@ -37,6 +37,7 @@ public interface VariantContextToGenotypesFactory {
      * Create a new VariantContext to list of Genotypes converter with the specified header.
      *
      * @param header header, must not be null
+     * @return a new VariantContext to list of Genotypes converter with the specified header
      */
     Converter<VariantContext, List<Genotype>> create(VCFHeader header);
 }

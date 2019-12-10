@@ -51,6 +51,7 @@ public final class ConversionException extends RuntimeException {
      * Create a new conversion exception with the specified source, source class, target class,
      * and cause.
      *
+     * @param cause cause
      * @param source source
      * @param sourceClass source class, must not be null
      * @param targetClass target class, must not be null
