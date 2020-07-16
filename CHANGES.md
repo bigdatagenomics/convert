@@ -1,5 +1,16 @@
 # convert Changelog #
 
+### Version 0.10.0 ###
+
+**Closed issues:**
+
+
+**Merged and closed pull requests:**
+
+ - Update htsjdk dependency version to 2.23.0 [\#84](https://github.com/bigdatagenomics/convert/pull/84) ([heuermh](https://github.com/heuermh))
+ - Update htsjdk dependency version to 2.22.0 [\#83](https://github.com/bigdatagenomics/convert/pull/83) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.8.0 ###
 
 **Closed issues:**
