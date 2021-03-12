@@ -1,5 +1,19 @@
 # convert Changelog #
 
+### Version 0.11.0 ###
+
+**Closed issues:**
+
+ - Is source and target class enough for Guice injection? [\#2](https://github.com/bigdatagenomics/convert/issues/2)
+
+**Merged and closed pull requests:**
+
+ - Update guice dependency version to 5.0.1, guava to 30.1-jre, junit to 4.13.2. [\#88](https://github.com/bigdatagenomics/convert/pull/88) ([heuermh](https://github.com/heuermh))
+ - Update htsjdk dependency version to 2.24.0 [\#87](https://github.com/bigdatagenomics/convert/pull/87) ([heuermh](https://github.com/heuermh))
+ - Update maven plugin dependency versions [\#86](https://github.com/bigdatagenomics/convert/pull/86) ([heuermh](https://github.com/heuermh))
+ - Bump junit from 4.13 to 4.13.1 [\#85](https://github.com/bigdatagenomics/convert/pull/85) ([dependabot[bot]](https://github.com/apps/dependabot))
+
+
 ### Version 0.10.0 ###
 
 **Closed issues:**
