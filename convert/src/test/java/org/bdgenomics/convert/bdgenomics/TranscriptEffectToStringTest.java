@@ -114,7 +114,7 @@ public final class TranscriptEffectToStringTest {
             .setTranscriptHgvs("c.-485C>T")
             .setRank(1)
             .setTotal(2)
-            .setCdsPosition(4)
+            .setCodingSequencePosition(4)
             .setProteinPosition(1)
             .setProteinLength(42)
             .setDistance(453)

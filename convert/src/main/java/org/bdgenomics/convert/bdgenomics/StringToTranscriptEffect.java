@@ -28,6 +28,7 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
+import org.bdgenomics.formats.avro.Impact;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
 
@@ -79,7 +80,7 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
         try {
             String alternateAllele = emptyToNull(tokens.get(0));
             List<String> effects = splitEffects(tokens.get(1));
-            //String annotationImpact = emptyToNull(tokens.get(2));
+            String impact = emptyToNull(tokens.get(2));
             String geneName = emptyToNull(tokens.get(3));
             String geneId = emptyToNull(tokens.get(4));
             String featureType = emptyToNull(tokens.get(5));
@@ -101,7 +102,7 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
             transcriptEffect = TranscriptEffect.newBuilder()
                 .setAlternateAllele(alternateAllele)
                 .setEffects(effects)
-                //.setAnnotationImpact(annotationImpact)
+                //.setImpact(Impact.valueOf(impact))
                 .setGeneName(geneName)
                 .setGeneId(geneId)
                 .setFeatureType(featureType)
@@ -113,8 +114,8 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
                 .setProteinHgvs(proteinHgvs)
                 .setCdnaPosition(cdnaPosition)
                 .setCdnaLength(cdnaLength)
-                .setCdsPosition(cdsPosition)
-                .setCdsLength(cdsLength)
+                .setCodingSequencePosition(cdsPosition)
+                .setCodingSequenceLength(cdsLength)
                 .setProteinPosition(proteinPosition)
                 .setProteinLength(proteinLength)
                 .setDistance(distance)

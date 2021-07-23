@@ -155,8 +155,8 @@ public final class StringToTranscriptEffectTest {
         assertNull(te.getProteinHgvs());
         assertNull(te.getCdnaPosition());
         assertNull(te.getCdnaLength());
-        assertEquals(Integer.valueOf(4), te.getCdsPosition());
-        assertNull(te.getCdsLength());
+        assertEquals(Integer.valueOf(4), te.getCodingSequencePosition());
+        assertNull(te.getCodingSequenceLength());
         assertEquals(Integer.valueOf(1), te.getProteinPosition());
         assertEquals(Integer.valueOf(42), te.getProteinLength());
         assertEquals(Integer.valueOf(453), te.getDistance());
