@@ -39,6 +39,9 @@ import org.slf4j.Logger;
  */
 final class StringToTranscriptEffect extends AbstractConverter<String, TranscriptEffect> {
 
+    /** Convert String to Impact. */
+    private final Converter<String, Impact> impactConverter;
+
     /** Convert String to VariantAnnotationMessage. */
     private final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter;
 
@@ -46,11 +49,14 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
     /**
      * Convert String to TranscriptEffect.
      *
+     * @param impactConverter convert String to Impact, must not be null
      * @param variantAnnotationMessageConverter convert String to VariantAnnotationMessage, must not be null
      */
-    StringToTranscriptEffect(final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter) {
+    StringToTranscriptEffect(final Converter<String, Impact> impactConverter, final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter) {
         super(String.class, TranscriptEffect.class);
+        checkNotNull(impactConverter);
         checkNotNull(variantAnnotationMessageConverter);
+        this.impactConverter = impactConverter;
         this.variantAnnotationMessageConverter = variantAnnotationMessageConverter;
     }
 
@@ -102,7 +108,7 @@ final class StringToTranscriptEffect extends AbstractConverter<String, Transcrip
             transcriptEffect = TranscriptEffect.newBuilder()
                 .setAlternateAllele(alternateAllele)
                 .setEffects(effects)
-                //.setImpact(Impact.valueOf(impact))
+                .setImpact(impact == null ? null : impactConverter.convert(impact, stringency, logger))
                 .setGeneName(geneName)
                 .setGeneId(geneId)
                 .setFeatureType(featureType)

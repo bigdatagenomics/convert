@@ -26,6 +26,7 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
+import org.bdgenomics.formats.avro.Impact;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
 
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
  * Unit test for StringToTranscriptEffect.
  */
 public final class StringToTranscriptEffectTest {
+    private Converter<String, Impact> impactConverter;
     private Converter<String, TranscriptEffect> transcriptEffectConverter;
     private Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter;
     private static final Logger logger = LoggerFactory.getLogger(StringToTranscriptEffectTest.class);
@@ -46,12 +48,13 @@ public final class StringToTranscriptEffectTest {
     private static final String INVALID = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453";
     private static final String INVALID_NUMBER = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|not a number|";
     private static final String INVALID_FRACTION = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|not a number/2|c.-485C>T|||4|1/42|453|";
-    private static final String VALID = "T|upstream_gene_variant||TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453|I3";
+    private static final String VALID = "T|upstream_gene_variant|HIGH|TAS1R3|ENSG00000169962|transcript|ENST00000339381.5|protein_coding|1/2|c.-485C>T|||4|1/42|453|I3";
 
     @Before
     public void setUp() {
+        impactConverter = new StringToImpact();
         variantAnnotationMessageConverter = new StringToVariantAnnotationMessage();
-        transcriptEffectConverter = new StringToTranscriptEffect(variantAnnotationMessageConverter);
+        transcriptEffectConverter = new StringToTranscriptEffect(impactConverter, variantAnnotationMessageConverter);
     }
 
     @Test
@@ -60,8 +63,13 @@ public final class StringToTranscriptEffectTest {
     }
 
     @Test(expected=NullPointerException.class)
+    public void testConstructorNullImpactConverter() {
+        new StringToTranscriptEffect(null, variantAnnotationMessageConverter);
+    }
+
+    @Test(expected=NullPointerException.class)
     public void testConstructorNullVariantAnnotationMessageConverter() {
-        new StringToTranscriptEffect(null);
+        new StringToTranscriptEffect(impactConverter, null);
     }
 
     @Test(expected=ConversionException.class)
@@ -143,6 +151,7 @@ public final class StringToTranscriptEffectTest {
     public void testConvert() {
         TranscriptEffect te = transcriptEffectConverter.convert(VALID, ConversionStringency.STRICT, logger);
         assertEquals("T", te.getAlternateAllele());
+        assertEquals(Impact.HIGH, te.getImpact());
         assertTrue(te.getEffects().contains("upstream_gene_variant"));
         assertEquals("TAS1R3", te.getGeneName());
         assertEquals("ENSG00000169962", te.getGeneId());

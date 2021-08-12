@@ -24,6 +24,7 @@ import com.google.inject.Singleton;
 import org.bdgenomics.convert.Converter;
 
 import org.bdgenomics.formats.avro.Dbxref;
+import org.bdgenomics.formats.avro.Impact;
 import org.bdgenomics.formats.avro.OntologyTerm;
 import org.bdgenomics.formats.avro.Read;
 import org.bdgenomics.formats.avro.Sequence;
@@ -52,6 +53,16 @@ public final class BdgenomicsModule extends AbstractModule {
     }
 
     @Provides @Singleton
+    Converter<String, Impact> createStringToImpact() {
+        return new StringToImpact();
+    }
+
+    @Provides @Singleton
+    Converter<Impact, String> createImpactToString() {
+        return new ImpactToString();
+    }
+
+    @Provides @Singleton
     Converter<String, OntologyTerm> createStringToOntologyTerm() {
         return new StringToOntologyTerm();
     }
@@ -72,13 +83,13 @@ public final class BdgenomicsModule extends AbstractModule {
     }
 
     @Provides @Singleton
-    Converter<String, TranscriptEffect> createStringToTranscriptEffect(final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter) {
-        return new StringToTranscriptEffect(variantAnnotationMessageConverter);
+    Converter<String, TranscriptEffect> createStringToTranscriptEffect(final Converter<String, Impact> impactConverter, final Converter<String, VariantAnnotationMessage> variantAnnotationMessageConverter) {
+        return new StringToTranscriptEffect(impactConverter, variantAnnotationMessageConverter);
     }
 
     @Provides @Singleton
-    Converter<TranscriptEffect, String> createTranscriptEffectToString(final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter) {
-        return new TranscriptEffectToString(variantAnnotationMessageConverter);
+    Converter<TranscriptEffect, String> createTranscriptEffectToString(final Converter<Impact, String> impactConverter, final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter) {
+        return new TranscriptEffectToString(impactConverter, variantAnnotationMessageConverter);
     }
 
     @Provides @Singleton
