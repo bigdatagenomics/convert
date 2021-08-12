@@ -28,6 +28,7 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionStringency;
 
 import org.bdgenomics.formats.avro.Dbxref;
+import org.bdgenomics.formats.avro.Impact;
 import org.bdgenomics.formats.avro.OntologyTerm;
 import org.bdgenomics.formats.avro.Read;
 import org.bdgenomics.formats.avro.Sequence;
@@ -61,6 +62,8 @@ public final class BdgenomicsModuleTest {
         Target target = injector.getInstance(Target.class);
         assertNotNull(target.getStringToDbxref());
         assertNotNull(target.getDbxrefToString());
+        assertNotNull(target.getStringToImpact());
+        assertNotNull(target.getImpactToString());
         assertNotNull(target.getStringToOntologyTerm());
         assertNotNull(target.getOntologyTermToString());
         assertNotNull(target.getStringToStrand());
@@ -83,6 +86,8 @@ public final class BdgenomicsModuleTest {
     static class Target {
         final Converter<String, Dbxref> stringToDbxref;
         final Converter<Dbxref, String> dbxrefToString;
+        final Converter<String, Impact> stringToImpact;
+        final Converter<Impact, String> impactToString;
         final Converter<String, OntologyTerm> stringToOntologyTerm;
         final Converter<OntologyTerm, String> ontologyTermToString;
         final Converter<String, Strand> stringToStrand;
@@ -101,6 +106,8 @@ public final class BdgenomicsModuleTest {
         @Inject
         Target(final Converter<String, Dbxref> stringToDbxref,
                final Converter<Dbxref, String> dbxrefToString,
+               final Converter<String, Impact> stringToImpact,
+               final Converter<Impact, String> impactToString,
                final Converter<String, OntologyTerm> stringToOntologyTerm,
                final Converter<OntologyTerm, String> ontologyTermToString,
                final Converter<String, Strand> stringToStrand,
@@ -118,6 +125,8 @@ public final class BdgenomicsModuleTest {
 
             this.stringToDbxref = stringToDbxref;
             this.dbxrefToString = dbxrefToString;
+            this.stringToImpact = stringToImpact;
+            this.impactToString = impactToString;
             this.stringToOntologyTerm = stringToOntologyTerm;
             this.ontologyTermToString = ontologyTermToString;
             this.stringToStrand = stringToStrand;
@@ -140,6 +149,14 @@ public final class BdgenomicsModuleTest {
 
         Converter<Dbxref, String> getDbxrefToString() {
             return dbxrefToString;
+        }
+
+        Converter<String, Impact> getStringToImpact() {
+            return stringToImpact;
+        }
+
+        Converter<Impact, String> getImpactToString() {
+            return impactToString;
         }
 
         Converter<String, OntologyTerm> getStringToOntologyTerm() {

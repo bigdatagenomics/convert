@@ -28,6 +28,7 @@ import org.bdgenomics.convert.Converter;
 import org.bdgenomics.convert.ConversionException;
 import org.bdgenomics.convert.ConversionStringency;
 
+import org.bdgenomics.formats.avro.Impact;
 import org.bdgenomics.formats.avro.TranscriptEffect;
 import org.bdgenomics.formats.avro.VariantAnnotationMessage;
 
@@ -38,6 +39,9 @@ import org.slf4j.Logger;
  */
 final class TranscriptEffectToString extends AbstractConverter<TranscriptEffect, String> {
 
+    /** Convert Impact to String. */
+    private final Converter<Impact, String> impactConverter;
+
     /** Convert VariantAnnotationMessage to String. */
     private final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter;
 
@@ -45,11 +49,14 @@ final class TranscriptEffectToString extends AbstractConverter<TranscriptEffect,
     /**
      * Convert TranscriptEffect to String.
      *
+     * @param impactConverter convert Impact to String, must not be null
      * @param variantAnnotationMessageConverter convert VariantAnnotationMessage to String, must not be null
      */
-    TranscriptEffectToString(final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter) {
+    TranscriptEffectToString(final Converter<Impact, String> impactConverter, final Converter<VariantAnnotationMessage, String> variantAnnotationMessageConverter) {
         super(TranscriptEffect.class, String.class);
+        checkNotNull(impactConverter);
         checkNotNull(variantAnnotationMessageConverter);
+        this.impactConverter = impactConverter;
         this.variantAnnotationMessageConverter = variantAnnotationMessageConverter;
     }
 
@@ -64,12 +71,13 @@ final class TranscriptEffectToString extends AbstractConverter<TranscriptEffect,
             return null;
         }
 
+        String impact = transcriptEffect.getImpact() == null ? null : impactConverter.convert(transcriptEffect.getImpact(), stringency, logger);
         List<String> messages = transcriptEffect.getMessages().stream().map(m -> variantAnnotationMessageConverter.convert(m, stringency, logger)).collect(toList());
 
         try {
             return Joiner.on("|").join(nullToEmpty(transcriptEffect.getAlternateAllele()),
                                        Joiner.on("&").join(transcriptEffect.getEffects()),
-                                       "", //nullToEmpty(transcriptEffect.getImpact()),
+                                       nullToEmpty(impact),
                                        nullToEmpty(transcriptEffect.getGeneName()),
                                        nullToEmpty(transcriptEffect.getGeneId()),
                                        nullToEmpty(transcriptEffect.getFeatureType()),
