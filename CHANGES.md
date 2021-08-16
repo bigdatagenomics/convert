@@ -1,5 +1,19 @@
 # convert Changelog #
 
+### Version 0.12.0 ###
+
+**Closed issues:**
+
+ - Add transcript effect impact converter [\#91](https://github.com/bigdatagenomics/convert/issues/91)
+ - Update bdg-formats dependency version to 0.16.0 [\#90](https://github.com/bigdatagenomics/convert/issues/90)
+
+**Merged and closed pull requests:**
+
+ - [CONVERT-91] Add transcript effect impact converter [\#93](https://github.com/bigdatagenomics/convert/pull/93) ([heuermh](https://github.com/heuermh))
+ - [FORMATS-90] Update bdg-formats dependency version to 0.16.0 [\#92](https://github.com/bigdatagenomics/convert/pull/92) ([heuermh](https://github.com/heuermh))
+ - Update htsjdk dependency version to 2.24.1, guava to 30.1.1-jre, commons-lang to 3.12 [\#89](https://github.com/bigdatagenomics/convert/pull/89) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.11.0 ###
 
 **Closed issues:**
