@@ -18,10 +18,10 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <bdg-formats.version>0.16.0</bdg-formats.version>
+    <bdg-formats.version>0.17.0</bdg-formats.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
     <ga4gh.version>0.6.0a10</ga4gh.version>
-    <guava.version>30.1.1-jre</guava.version>
+    <guava.version>31.0.1-jre</guava.version>
     <guice.version>5.0.1</guice.version>
     <htsjdk.version>2.24.1</htsjdk.version>
     <jsr305.version>3.0.2</jsr305.version>
@@ -46,6 +46,8 @@
   <developers>
     <developer>
       <id>heuermh</id>
+      <name>Michael L Heuer</name>
+      <organization>University of California Berkeley</organization>
     </developer>
   </developers>
   <issueManagement>
