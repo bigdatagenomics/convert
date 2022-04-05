@@ -1,6 +1,5 @@
 # convert
 
-[![Build Status](https://travis-ci.org/bigdatagenomics/convert.svg?branch=master)](https://travis-ci.org/bigdatagenomics/convert)
 [![Maven Central](https://img.shields.io/maven-central/v/org.bdgenomics.convert/convert.svg?maxAge=600)](http://search.maven.org/#search%7Cga%7C1%7Corg.bdgenomics.convert)
 [![API Documentation](http://javadoc.io/badge/org.bdgenomics.convert/convert.svg?color=brightgreen&label=javadoc)](http://javadoc.io/doc/org.bdgenomics.convert/convert)
 
@@ -9,7 +8,7 @@
 Install
 
  * JDK 1.8 or later, http://openjdk.java.net
- * Apache Maven 3.3.9 or later, http://maven.apache.org
+ * Apache Maven 3.8.5 or later, http://maven.apache.org
 
 To build
 
