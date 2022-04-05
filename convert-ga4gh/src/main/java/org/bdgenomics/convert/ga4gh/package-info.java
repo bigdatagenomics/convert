@@ -18,5 +18,7 @@
 
 /**
  * Conversions between GA4GH Protobuf and Big Data Genomics Avro Formats.
+ *
+ * @deprecated to be removed in version 0.15.0
  */
 package org.bdgenomics.convert.ga4gh;
