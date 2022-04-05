@@ -43,8 +43,12 @@ import org.bdgenomics.formats.avro.ProcessingStep;
 
 /**
  * Guice module for the org.bdgenomics.convert.ga4gh package.
+ *
+ * @deprecated to be removed in version 0.15.0
  */
 @Immutable
+@Deprecated
+//@Deprecated(since = "0.14.0", forRemoval = true)  jdk 9+
 public final class Ga4ghModule extends AbstractModule {
     @Override
     protected void configure() {
