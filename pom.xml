@@ -18,15 +18,13 @@
 
   <properties>
     <java.version>1.8</java.version>
-    <bdg-formats.version>0.17.0</bdg-formats.version>
+    <bdg-formats.version>1.0</bdg-formats.version>
     <commons-lang3.version>3.12.0</commons-lang3.version>
-    <ga4gh.version>0.6.0a10</ga4gh.version>
     <guava.version>31.1-jre</guava.version>
-    <guice.version>5.0.1</guice.version>
+    <guice.version>5.1.0</guice.version>
     <htsjdk.version>2.24.1</htsjdk.version>
     <jsr305.version>3.0.2</jsr305.version>
     <junit.version>4.13.2</junit.version>
-    <protobuf.version>3.0.0-beta-3</protobuf.version>
     <slf4j.version>1.7.30</slf4j.version>
   </properties>
 
@@ -189,16 +187,6 @@
         <version>${junit.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protobuf-java</artifactId>
-        <version>${protobuf.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protobuf-java-util</artifactId>
-        <version>${protobuf.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>${commons-lang3.version}</version>
@@ -207,11 +195,6 @@
         <groupId>org.bdgenomics.bdg-formats</groupId>
         <artifactId>bdg-formats</artifactId>
         <version>${bdg-formats.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.ga4gh</groupId>
-        <artifactId>ga4gh-schemas</artifactId>
-        <version>${ga4gh.version}</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -229,7 +212,6 @@
   <modules>
     <module>convert</module>
     <module>convert-htsjdk</module>
-    <module>convert-ga4gh</module>
   </modules>
 
   <profiles>
