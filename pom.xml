@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.bdgenomics.convert</groupId>
   <artifactId>convert-parent</artifactId>
-  <version>0.14.0-SNAPSHOT</version>
+  <version>0.14.0</version>
   <packaging>pom</packaging>
   <name>Big Data Genomics: Convert Parent</name>
   <description>Convert Parent POM</description>
@@ -41,7 +41,7 @@
     <connection>scm:git:git@github.com:bigdatagenomics/convert.git</connection>
     <developerConnection>scm:git:git@github.com:bigdatagenomics/convert.git</developerConnection>
     <url>scm:git:git@github.com:bigdatagenomics/convert.git</url>
-    <tag>master</tag>
+    <tag>convert-parent-0.14.0</tag>
   </scm>
   <developers>
     <developer>
