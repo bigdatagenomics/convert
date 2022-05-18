@@ -1,5 +1,22 @@
 # convert Changelog #
 
+### Version 0.13.0 ###
+
+**Closed issues:**
+
+ - Migrate CI from Travis to Github Actions [\#101](https://github.com/bigdatagenomics/convert/issues/101)
+ - Update pom.xml url to Github repository [\#96](https://github.com/bigdatagenomics/convert/issues/96)
+
+**Merged and closed pull requests:**
+
+ - Remove Travis badge, update Maven version to 3.8.5 [\#103](https://github.com/bigdatagenomics/convert/pull/103) ([heuermh](https://github.com/heuermh))
+ - Migrate CI from Travis to Github Actions [\#102](https://github.com/bigdatagenomics/convert/pull/102) ([heuermh](https://github.com/heuermh))
+ - Roll back guice dependency version to 5.0.1 [\#100](https://github.com/bigdatagenomics/convert/pull/100) ([heuermh](https://github.com/heuermh))
+ - Update guice dependency version to 5.0.2, guava to 31.1-jre [\#99](https://github.com/bigdatagenomics/convert/pull/99) ([heuermh](https://github.com/heuermh))
+ - Update pom.xml url to Github repository [\#97](https://github.com/bigdatagenomics/convert/pull/97) ([heuermh](https://github.com/heuermh))
+ - Update bdg-formats dependency version to 0.17.0 [\#95](https://github.com/bigdatagenomics/convert/pull/95) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.12.0 ###
 
 **Closed issues:**
