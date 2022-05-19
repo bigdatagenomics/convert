@@ -1,5 +1,16 @@
 # convert Changelog #
 
+### Version 1.0 ###
+
+**Closed issues:**
+
+ - Remove GA4GH protobuf converters [\#106](https://github.com/bigdatagenomics/convert/issues/106)
+
+**Merged and closed pull requests:**
+
+ - Remove deprecated ga4gh packages [\#108](https://github.com/bigdatagenomics/convert/pull/108) ([heuermh](https://github.com/heuermh))
+
+
 ### Version 0.14.0 ###
 
 **Closed issues:**
